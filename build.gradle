@@ -35,16 +35,19 @@ dependencies {
 	// Database
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.1'
 
-	// Camunda
+	// Camunda (& h2 as database)
 	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-webapp', version: '7.14.0'
 	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-rest', version: '7.14.0'
 	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter', version: '7.14.0'
 	implementation group: 'org.camunda.bpm', name: 'camunda-engine-spring', version: '7.14.0'
 	implementation group: 'org.camunda.bpm', name: 'camunda-engine-plugin-spin', version: '7.14.0'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.4.4'
-
 	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
 
+	// Drools DMN Decision Engine
+	implementation group: 'org.drools', name: 'drools-core', version: '7.62.0.Final'
+	implementation group: 'org.drools', name: 'drools-compiler', version: '7.62.0.Final'
+	implementation group: 'org.drools', name: 'drools-decisiontables', version: '7.62.0.Final'
 }
 
 test {
