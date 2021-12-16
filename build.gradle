@@ -19,11 +19,32 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Web
+	implementation('org.springframework.boot:spring-boot-starter-web:2.6.1')
+
+	// Mapping
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+
+	// Database
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.1'
+
+	// Camunda
+	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-webapp', version: '7.14.0'
+	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-rest', version: '7.14.0'
+	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter', version: '7.14.0'
+	implementation group: 'org.camunda.bpm', name: 'camunda-engine-spring', version: '7.14.0'
+	implementation group: 'org.camunda.bpm', name: 'camunda-engine-plugin-spin', version: '7.14.0'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.4.4'
+
+	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+
 }
 
 test {
