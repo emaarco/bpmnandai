@@ -48,6 +48,9 @@ dependencies {
 	implementation group: 'org.drools', name: 'drools-core', version: '7.62.0.Final'
 	implementation group: 'org.drools', name: 'drools-compiler', version: '7.62.0.Final'
 	implementation group: 'org.drools', name: 'drools-decisiontables', version: '7.62.0.Final'
+
+	// Testing
+	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.1'
 }
 
 test {
