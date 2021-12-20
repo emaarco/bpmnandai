@@ -7,11 +7,13 @@ and orchestrate them via a BPMN engine (like Camunda).
 
 Three variants are to be tested prototypically:
 
-###Variant 1: 
+---
+
+### Variant 1: 
 TBD
 
-###Variant 2:
+### Variant 2:
 TBD
 
-###Variant 3:
+### Variant 3:
 TBD
