@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduledCreditRequest {
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 10000)
     public void doSomething() {
         log.info("Starting new process");
     }
