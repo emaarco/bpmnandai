@@ -1,21 +1,6 @@
-CREATE TABLE IF NOT EXISTS bank_credit_approval (
-"ID" CHAR,
-"Gender" CHAR,
-"City_Category" CHAR,
-"Employer_Category1" CHAR,
-"Monthly_Income" DOUBLE,
-"Contacted" CHAR,
-"Source_Category" CHAR,
-"Existing_EMI" DOUBLE,
-"Loan_Amount" INT,
-"Loan_Period" INT,
-"Interest_Rate" DOUBLE,
-"EMI" INT,
-"is_approved" CHAR,
-"prediction_is_approved" CHAR
-);
-
-INSERT INTO bank_credit_approval VALUES
+INSERT INTO bank_credit_approval
+(id, gender, city_category, employer_category1, monthly_income, contacted, source_category, existing_emi,
+ loan_amount, loan_period, interest_rate, emi, is_approved) VALUES
 ('APPE70289249423','Male','C','C',2250,'Y','B',0,45000,4,0,0,'NO'),
 ('APPF80273865537','Male','C','A',3500,'Y','B',0,92000,5,0,0,'NO'),
 ('APPG60994436641','Male','A','A',10000,'Y','B',2500,50000,2,0,0,'NO'),
