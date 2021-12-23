@@ -1,4 +1,4 @@
-package de.hsa.bpmnandai.project.infrastructure;
+package de.hsa.bpmnandai.project.infrastructure.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,5 +59,8 @@ public class BankLoanRequestEntity {
     @Column(name = "prediction_is_approved")
     private String predictionIsApproved;
 
+    public void setPredictionIsApproved(final String predictionIsApproved) {
+        this.predictionIsApproved = predictionIsApproved;
+    }
 }
 
