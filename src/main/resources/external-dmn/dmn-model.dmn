@@ -1,0 +1,227 @@
+<?xml version="1.0" ?>
+<dmn:definitions
+    xmlns:dmn="https://www.omg.org/spec/DMN/20191111/MODEL/"
+    xmlns="https://kiegroup.org/dmn/_C58E5606-2474-4A43-AB04-ECCA1E50480C"
+    xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+    xmlns:kie="http://www.drools.org/kie/dmn/1.2"
+    xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/"
+    xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+    xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+    xmlns:included1="tree.pmml" id="_6D18D1F9-74CF-46AD-94DD-A985D466EB39" name="dmn-model" expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_C58E5606-2474-4A43-AB04-ECCA1E50480C">
+    <dmn:extensionElements/>
+    <dmn:import id="_50470967-F868-4764-A1AD-0ACD35245B58" name="tree" namespace="tree" locationURI="tree.pmml" importType="http://www.dmg.org/PMML-4_2"/>
+    <dmn:businessKnowledgeModel id="_BF84ACB1-B6B7-4F94-8B25-77FC6B88DDE1" name="Klassifikator Kreditwuerdigkeit">
+        <dmn:extensionElements/>
+        <dmn:variable id="_AA2D3323-F0E0-43B9-9EBD-7B21D899F995" name="Klassifikator Kreditwuerdigkeit" typeRef="Any"/>
+        <dmn:encapsulatedLogic id="_564DF952-461B-4170-9516-E52405A3E65B" kind="PMML">
+            <dmn:formalParameter id="_FD89BF3C-59D5-459F-A30C-579ADF2F45FF" name="City_Category" typeRef="Any"/>
+            <dmn:formalParameter id="_64B6D3DB-FACA-4E8D-B4DF-2878FE1E7AD6" name="Contacted" typeRef="Any"/>
+            <dmn:formalParameter id="_C7D210F6-2CF3-4EBB-815A-E9C75006ED98" name="EMI" typeRef="Any"/>
+            <dmn:formalParameter id="_9C66902D-6782-496B-8ED2-C9FBCAA2A48C" name="Employer_Category1" typeRef="Any"/>
+            <dmn:formalParameter id="_3F695CD8-6CE3-4F47-83A3-D42A88A1734E" name="Existing_EMI" typeRef="Any"/>
+            <dmn:formalParameter id="_704B8A59-C845-47DB-9B68-5F012758B6FA" name="Gender" typeRef="Any"/>
+            <dmn:formalParameter id="_D821200A-FA53-48AE-87A6-5B7BE6AB1DB1" name="Interest_Rate" typeRef="Any"/>
+            <dmn:formalParameter id="_5DBF7434-BF43-411E-8787-1E32E56CB688" name="Loan_Amount" typeRef="Any"/>
+            <dmn:formalParameter id="_547E06BB-FF0B-4C34-8DE8-F72AAAA50B52" name="Loan_Period" typeRef="Any"/>
+            <dmn:formalParameter id="_C5018610-A411-4D3A-ADCD-031BA06512EB" name="Monthly_Income" typeRef="Any"/>
+            <dmn:formalParameter id="_C6E68DCC-FF61-4CAB-A0EA-5266E0423DD3" name="Source_Category" typeRef="Any"/>
+            <dmn:context id="_E5ABE367-D921-464B-8DA5-33D8F267C162">
+                <dmn:contextEntry>
+                    <dmn:variable id="_854BFA4D-E663-4D11-82C8-715E6E6485D2" name="document" typeRef="string"/>
+                    <dmn:literalExpression id="_293A8280-107E-4052-93D2-D07666FE8669">
+                        <dmn:text>"tree"</dmn:text>
+                    </dmn:literalExpression>
+                </dmn:contextEntry>
+                <dmn:contextEntry>
+                    <dmn:variable id="_4A7437BD-1C78-4DA7-8A20-4DF0B5A9776C" name="model" typeRef="string"/>
+                    <dmn:literalExpression id="_1589B9EC-8C19-456A-8CC5-8BA609DADA31">
+                        <dmn:text>"DecisionTree"</dmn:text>
+                    </dmn:literalExpression>
+                </dmn:contextEntry>
+            </dmn:context>
+        </dmn:encapsulatedLogic>
+    </dmn:businessKnowledgeModel>
+    <dmn:decision id="_FECB8B44-CB10-4C96-BFB6-268AAD2DEB94" name="Kreditwuerdigkeit">
+        <dmn:description>Kreditwürdigkeit prüfen</dmn:description>
+        <dmn:extensionElements/>
+        <dmn:variable id="_973501E5-9D8E-49D0-893C-4CBB7BFE0C6E" name="Kreditwuerdigkeit" typeRef="Any"/>
+        <dmn:informationRequirement id="_7456FCC2-339C-4325-9AD8-BA584DF34DD1">
+            <dmn:requiredInput href="#_6079761C-C759-479D-8B77-54B9C5418ECB"/>
+        </dmn:informationRequirement>
+        <dmn:knowledgeRequirement id="_DC843F06-7B93-41FD-B97B-EA7F33AFC40D">
+            <dmn:requiredKnowledge href="#_BF84ACB1-B6B7-4F94-8B25-77FC6B88DDE1"/>
+        </dmn:knowledgeRequirement>
+        <dmn:invocation id="_DA82CCE2-8842-4BBC-AEBE-B94BB5A79937">
+            <dmn:literalExpression id="_A4CCD63A-AA1F-4D28-80C0-DF1BC11EC92E">
+                <dmn:text>Klassifikator Kreditwuerdigkeit</dmn:text>
+            </dmn:literalExpression>
+            <dmn:binding>
+                <dmn:parameter id="_B0F64B8D-0816-4213-9C27-2247EFCFB66C" name="City_Category" typeRef="Any"/>
+                <dmn:literalExpression id="_ABDD139D-383D-4899-BF18-C6AAE988E2F4">
+                    <dmn:text>Kreditanfrage.cityCategory</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_A5818173-E221-4D04-A284-DDBE895DF0DF" name="Contacted" typeRef="Any"/>
+                <dmn:literalExpression id="_192F46B0-E777-4598-A7BA-32CB22B0268D">
+                    <dmn:text>Kreditanfrage.contacted</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_12E6ED15-3135-4640-AA4F-BAD82CC47952" name="EMI" typeRef="Any"/>
+                <dmn:literalExpression id="_5C498781-7DB5-4ABD-8C0B-9F2C82000DDD">
+                    <dmn:text>Kreditanfrage.emi</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_E8C42C27-4221-479C-B4E3-7953064FF42E" name="Employer_Category1" typeRef="Any"/>
+                <dmn:literalExpression id="_964980C5-B6E5-4143-9587-FF1221E8AACA">
+                    <dmn:text>Kreditanfrage.employerCategory</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_72254D03-6B7E-431B-AA12-62F5BC050BB5" name="Existing_EMI" typeRef="Any"/>
+                <dmn:literalExpression id="_DC4E5A17-9722-4CEE-9523-B5C36C44EC25">
+                    <dmn:text>Kreditanfrage.existingEmi</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_4EFA3A82-C961-4BCD-A7AF-F9CA1EAFBF3A" name="Gender" typeRef="Any"/>
+                <dmn:literalExpression id="_4E4722CB-41F1-4FD0-AAD4-AD27D55DDE34">
+                    <dmn:text>Kreditanfrage.gender</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_D74750C4-51B1-4913-AE3C-C924B265C383" name="Interest_Rate" typeRef="Any"/>
+                <dmn:literalExpression id="_7E0F48F4-BEA3-4342-91B6-9A3FB1F56B90">
+                    <dmn:text>Kreditanfrage.interestRate</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_4739D168-B3BF-4A62-B799-C44D6E26906D" name="Loan_Amount" typeRef="Any"/>
+                <dmn:literalExpression id="_DFF660E3-359E-47BE-8BA7-0A4AEA3EBA90">
+                    <dmn:text>Kreditanfrage.loanAmount</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_A9D62EDE-AFF7-40FF-861A-555BE09C2CA7" name="Loan_Period" typeRef="Any"/>
+                <dmn:literalExpression id="_1D920BD4-730F-4D57-9759-710248FB128F">
+                    <dmn:text>Kreditanfrage.loanPeriod</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_C4CFCA29-E5AF-42E8-9588-58DDF8011D3C" name="Monthly_Income" typeRef="Any"/>
+                <dmn:literalExpression id="_174E2DA6-61DE-4F4D-9514-991096DC7D79">
+                    <dmn:text>Kreditanfrage.monthlyIncome</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+            <dmn:binding>
+                <dmn:parameter id="_4D14F9C1-A36F-45A4-AB70-7B88082947FE" name="Source_Category" typeRef="Any"/>
+                <dmn:literalExpression id="_9A8A0FAE-BBB2-4FA4-870E-EBC469594338">
+                    <dmn:text>Kreditanfrage.sourceCategory</dmn:text>
+                </dmn:literalExpression>
+            </dmn:binding>
+        </dmn:invocation>
+    </dmn:decision>
+    <dmn:inputData id="_6079761C-C759-479D-8B77-54B9C5418ECB" name="Kreditanfrage">
+        <dmn:extensionElements/>
+        <dmn:variable id="_1ED6332D-58D5-4A65-84F9-A73CA99C7B32" name="Kreditanfrage" typeRef="Any"/>
+    </dmn:inputData>
+    <dmndi:DMNDI>
+        <dmndi:DMNDiagram id="_1618EE6A-6D95-47F7-A42D-791E8D43143E" name="DRG">
+            <di:extension>
+                <kie:ComponentsWidthsExtension>
+                    <kie:ComponentWidths dmnElementRef="_E5ABE367-D921-464B-8DA5-33D8F267C162">
+                        <kie:width>50</kie:width>
+                        <kie:width>100</kie:width>
+                        <kie:width>200</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_293A8280-107E-4052-93D2-D07666FE8669">
+                        <kie:width>200</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_1589B9EC-8C19-456A-8CC5-8BA609DADA31">
+                        <kie:width>200</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_564DF952-461B-4170-9516-E52405A3E65B">
+                        <kie:width>50</kie:width>
+                        <kie:width>370</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_DA82CCE2-8842-4BBC-AEBE-B94BB5A79937">
+                        <kie:width>50</kie:width>
+                        <kie:width>263</kie:width>
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_A4CCD63A-AA1F-4D28-80C0-DF1BC11EC92E"/>
+                    <kie:ComponentWidths dmnElementRef="_ABDD139D-383D-4899-BF18-C6AAE988E2F4">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_192F46B0-E777-4598-A7BA-32CB22B0268D">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_5C498781-7DB5-4ABD-8C0B-9F2C82000DDD">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_964980C5-B6E5-4143-9587-FF1221E8AACA">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_DC4E5A17-9722-4CEE-9523-B5C36C44EC25">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_4E4722CB-41F1-4FD0-AAD4-AD27D55DDE34">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_7E0F48F4-BEA3-4342-91B6-9A3FB1F56B90">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_DFF660E3-359E-47BE-8BA7-0A4AEA3EBA90">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_1D920BD4-730F-4D57-9759-710248FB128F">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_174E2DA6-61DE-4F4D-9514-991096DC7D79">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                    <kie:ComponentWidths dmnElementRef="_9A8A0FAE-BBB2-4FA4-870E-EBC469594338">
+                        <kie:width>320</kie:width>
+                    </kie:ComponentWidths>
+                </kie:ComponentsWidthsExtension>
+            </di:extension>
+            <dmndi:DMNShape id="dmnshape-drg-_BF84ACB1-B6B7-4F94-8B25-77FC6B88DDE1" dmnElementRef="_BF84ACB1-B6B7-4F94-8B25-77FC6B88DDE1" isCollapsed="false">
+                <dmndi:DMNStyle>
+                    <dmndi:FillColor red="255" green="255" blue="255"/>
+                    <dmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <dmndi:FontColor red="0" green="0" blue="0"/>
+                </dmndi:DMNStyle>
+                <dc:Bounds x="171" y="240.99999999999994" width="140" height="69"/>
+                <dmndi:DMNLabel/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="dmnshape-drg-_FECB8B44-CB10-4C96-BFB6-268AAD2DEB94" dmnElementRef="_FECB8B44-CB10-4C96-BFB6-268AAD2DEB94" isCollapsed="false">
+                <dmndi:DMNStyle>
+                    <dmndi:FillColor red="255" green="255" blue="255"/>
+                    <dmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <dmndi:FontColor red="0" green="0" blue="0"/>
+                </dmndi:DMNStyle>
+                <dc:Bounds x="367" y="241.49999999999994" width="153" height="71"/>
+                <dmndi:DMNLabel/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="dmnshape-drg-_6079761C-C759-479D-8B77-54B9C5418ECB" dmnElementRef="_6079761C-C759-479D-8B77-54B9C5418ECB" isCollapsed="false">
+                <dmndi:DMNStyle>
+                    <dmndi:FillColor red="255" green="255" blue="255"/>
+                    <dmndi:StrokeColor red="0" green="0" blue="0"/>
+                    <dmndi:FontColor red="0" green="0" blue="0"/>
+                </dmndi:DMNStyle>
+                <dc:Bounds x="360" y="376" width="165" height="56"/>
+                <dmndi:DMNLabel/>
+            </dmndi:DMNShape>
+            <dmndi:DMNEdge id="dmnedge-drg-_7456FCC2-339C-4325-9AD8-BA584DF34DD1" dmnElementRef="_7456FCC2-339C-4325-9AD8-BA584DF34DD1">
+                <di:waypoint x="442.5" y="404"/>
+                <di:waypoint x="443.5" y="312.49999999999994"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="dmnedge-drg-_DC843F06-7B93-41FD-B97B-EA7F33AFC40D-AUTO-SOURCE-AUTO-TARGET" dmnElementRef="_DC843F06-7B93-41FD-B97B-EA7F33AFC40D">
+                <di:waypoint x="311" y="275.49999999999994"/>
+                <di:waypoint x="367" y="276.99999999999994"/>
+            </dmndi:DMNEdge>
+        </dmndi:DMNDiagram>
+    </dmndi:DMNDI>
+</dmn:definitions>

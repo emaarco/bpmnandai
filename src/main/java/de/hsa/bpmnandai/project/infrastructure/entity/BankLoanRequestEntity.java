@@ -59,8 +59,16 @@ public class BankLoanRequestEntity {
     @Column(name = "prediction_is_approved")
     private String predictionIsApproved;
 
+    @Column(name = "prediction_is_approved_2")
+    private String predictionIsApproved2;
+
     public void setPredictionIsApproved(final String predictionIsApproved) {
         this.predictionIsApproved = predictionIsApproved;
     }
+
+    public void setPredictionIsApproved2(final String predictionIsApproved2) {
+        this.predictionIsApproved2 = predictionIsApproved2;
+    }
+
 }
 

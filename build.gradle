@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'de.hsa.bpmnandai'
@@ -9,50 +9,63 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
 
-	// Web
-	implementation('org.springframework.boot:spring-boot-starter-web:2.6.1')
+    // Web
+    implementation('org.springframework.boot:spring-boot-starter-web:2.6.1')
 
-	// Mapping
-	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    // Mapping
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 
-	// Lombok
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
-	// Database
-	runtimeOnly 'org.postgresql:postgresql'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Database
+    runtimeOnly 'org.postgresql:postgresql:42.3.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.1'
 
-	// Camunda (& h2 as database)
-	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-webapp', version: '7.14.0'
-	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-rest', version: '7.14.0'
-	implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter', version: '7.14.0'
-	implementation group: 'org.camunda.bpm', name: 'camunda-engine-spring', version: '7.14.0'
-	implementation group: 'org.camunda.bpm', name: 'camunda-engine-plugin-spin', version: '7.14.0'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.4.4'
+    // Camunda (& h2 as database)
+    implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-webapp', version: '7.14.0'
+    implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter-rest', version: '7.14.0'
+    implementation group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter', version: '7.14.0'
+    implementation group: 'org.camunda.bpm', name: 'camunda-engine-spring', version: '7.14.0'
+    implementation group: 'org.camunda.bpm', name: 'camunda-engine-plugin-spin', version: '7.14.0'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.4.4'
 
-	// Drools DMN Decision Engine
-	implementation group: 'org.drools', name: 'drools-core', version: '7.62.0.Final'
-	implementation group: 'org.drools', name: 'drools-compiler', version: '7.62.0.Final'
-	implementation group: 'org.drools', name: 'drools-decisiontables', version: '7.62.0.Final'
+    // Drools DMN Decision Engine
+    implementation group: 'org.drools', name: 'drools-core', version: '7.63.0.Final'
+    implementation group: 'org.drools', name: 'drools-compiler', version: '7.63.0.Final'
+    implementation group: 'org.drools', name: 'drools-decisiontables', version: '7.63.0.Final'
+    implementation group: 'org.kie', name: 'kie-dmn-core', version: '7.63.0.Final'
+    implementation group: 'org.kie', name: 'kie-ci', version: '7.63.0.Final'
+    implementation group: 'org.kie', name: 'kie-api', version: '7.63.0.Final'
 
-	// Testing
-	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.1'
+    // PMML Extension for DMN-Engine (Bug: do not upgrade evaluator to 1.6!!)
+    implementation group: 'org.kie', name: 'kie-dmn-jpmml', version: '7.62.0.Final'
+    implementation group: 'org.drools', name: 'kie-pmml', version: '7.62.0.Final'
+    implementation group: 'org.kie', name: 'kie-pmml-commons', version: '7.62.0.Final'
+    implementation group: 'org.kie', name: 'kie-pmml-compiler-api', version: '7.62.0.Final'
+    implementation group: 'org.jpmml', name: 'pmml-evaluator', version: '1.5.16'
+
+    // Documentation
+    // compile 'org.springdoc:springdoc-openapi-ui:1.5.3'
+
+    // Testing
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.1'
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

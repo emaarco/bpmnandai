@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+    <!--packages = folder in which the dmn-files are stored -->
+    <kbase name="dmn" packages="external-dmn" default="true">
+    </kbase>
+</kmodule>
