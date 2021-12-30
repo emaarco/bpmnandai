@@ -12,8 +12,12 @@ public class DmnExecutables {
 
     private final ExternalDmnFacade externalDmnFacade;
 
+    /**
+     * A DMN-task that is invoked to check whether a customer is creditworthy
+     * (...customer has created a credit-request that can be identified by the provided ID)
+     */
     public String checkCreditworthiness(final String requestId) {
-        log.info("Executing check");
+        log.info("Check whether credit-application '{}' can be approved", requestId);
         return externalDmnFacade.checkCreditworthiness(requestId);
     }
 
