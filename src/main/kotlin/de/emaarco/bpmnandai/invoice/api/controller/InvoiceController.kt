@@ -16,8 +16,9 @@ class InvoiceController(private val invoiceFacade: InvoiceFacade) {
         return ResponseEntity.ok().build()
     }
 
-    @PostMapping("/approve")
-    fun approveInvoice(@PathVariable(name = "invoiceId") invoiceId: String): ResponseEntity<Void> {
+    @PostMapping("/approve/{invoiceId}")
+    fun approveInvoice(@PathVariable("invoiceId") invoiceId: String): ResponseEntity<Void> {
+        println("Received request to approve invoice '$invoiceId'")
         invoiceFacade.approveInvoice(invoiceId)
         return ResponseEntity.ok().build()
     }

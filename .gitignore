@@ -29,6 +29,7 @@ gradle/wrapper
 gradlew
 .idea
 build/
+.DS_Store
 
 # Data
 data
