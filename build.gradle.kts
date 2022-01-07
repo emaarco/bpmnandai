@@ -49,6 +49,9 @@ dependencies {
     implementation("org.kie:kie-dmn-jpmml:7.63.0.Final")
     implementation("org.jpmml:pmml-evaluator:1.5.16")
 
+    // Other dependencies
+    implementation("org.json:json:20211205")
+
     // Unit-testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
