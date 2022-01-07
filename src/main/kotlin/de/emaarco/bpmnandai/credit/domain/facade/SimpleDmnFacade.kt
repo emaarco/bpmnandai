@@ -3,6 +3,7 @@ package de.emaarco.bpmnandai.credit.domain.facade
 import de.emaarco.bpmnandai.camunda.domain.ProcessService
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
 import de.emaarco.bpmnandai.credit.infrastructure.entity.BankLoanRequestEntity
+import mu.KotlinLogging
 import org.camunda.bpm.engine.history.HistoricProcessInstance
 import org.springframework.stereotype.Component
 
@@ -12,6 +13,7 @@ class SimpleDmnFacade(
     private var creditService: CreditService,
 ) {
 
+    private val log = KotlinLogging.logger {}
     private val PROCESS_KEY = "Process_KreditAnfrage"
 
     fun processLoanRequests() {
@@ -23,7 +25,7 @@ class SimpleDmnFacade(
             val businessKey: String = request.requestId
             processService.startInstanceOfProcess(PROCESS_KEY, businessKey, processVariables)
             currentIteration++
-            println("Provided loan-request '${currentIteration}' of '${totalEntries}' to engine")
+            log.info("Provided loan-request '${currentIteration}' of '${totalEntries}' to engine")
         }
     }
 
@@ -34,7 +36,7 @@ class SimpleDmnFacade(
         historic.forEach { instance ->
             val entity: BankLoanRequestEntity? = entities.find { e -> e.requestId == instance.businessKey };
             entity?.predictionIsApproved = instance.endActivityId
-            println("Requested result nr. '${++iteration}'")
+            log.info("Requested result nr. '${++iteration}'")
         };
         creditService.saveCreditRequests(entities)
     }

@@ -9,6 +9,10 @@ import kotlin.system.exitProcess
 @Service
 class InvoiceService(private val verifyAdapter: VeryfiAdapter) {
 
+    /**
+     * TODO: save in mongo-db
+     * TODO: remove try-catch if secure
+     */
     fun extractDataFromInvoice(file: ByteArray) {
         var invoiceAsBase64 = Base64.getEncoder().encodeToString(file)
         invoiceAsBase64 = "data:application/pdf;base64,${invoiceAsBase64}"

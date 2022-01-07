@@ -51,6 +51,7 @@ dependencies {
 
     // Other dependencies
     implementation("org.json:json:20211205")
+    implementation("io.github.microutils:kotlin-logging:2.1.21")
 
     // Unit-testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
