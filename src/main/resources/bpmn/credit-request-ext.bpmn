@@ -8,7 +8,7 @@
     <bpmn:endEvent id="Event_KreditGewaehrt" name="Kredit wurde gewährt">
       <bpmn:incoming>Flow_14h6iej</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:businessRuleTask id="Task_KreditwuerdigkeitPruefen" name="Kreditwürdig-&#10;keit prüfen" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${dmnExecutables.checkCreditworthiness(requestId)}" camunda:resultVariable="approved">
+    <bpmn:businessRuleTask id="Task_KreditwuerdigkeitPruefen" name="Kreditwürdig-&#10;keit prüfen" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${creditExecutables.checkCreditworthiness(requestId)}" camunda:resultVariable="approved">
       <bpmn:incoming>Flow_11m0sha</bpmn:incoming>
       <bpmn:outgoing>Flow_0r2nsng</bpmn:outgoing>
     </bpmn:businessRuleTask>

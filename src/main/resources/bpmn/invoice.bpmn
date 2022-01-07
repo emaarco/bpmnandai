@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_00d87wm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
   <bpmn:process id="Prozess_RechnungBezahlen" isExecutable="true">
-    <bpmn:sequenceFlow id="Flow_0kj9ysj" sourceRef="Event_Rechnung_erhalten" targetRef="Activity_0pu6l5c" />
-    <bpmn:serviceTask id="Activity_0pu6l5c" name="Daten&#10;auslesen" camunda:asyncAfter="true" camunda:expression="${invoiceExecutables.extractDataFromInvoice(invoiceId)}">
+    <bpmn:sequenceFlow id="Flow_0kj9ysj" sourceRef="Event_Rechnung_erhalten" targetRef="Task_DatenAuslesen" />
+    <bpmn:serviceTask id="Task_DatenAuslesen" name="Daten&#10;auslesen" camunda:asyncAfter="true" camunda:expression="${invoiceExecutables.extractDataFromInvoice(invoiceId)}">
       <bpmn:incoming>Flow_0kj9ysj</bpmn:incoming>
       <bpmn:outgoing>Flow_1kjmwru</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -11,9 +11,8 @@
       <bpmn:outgoing>Flow_1wt84m4</bpmn:outgoing>
       <bpmn:outgoing>Flow_1w2qq94</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0tgkame" sourceRef="Activity_0njcqrm" targetRef="Gateway_03solbg" />
-    <bpmn:sequenceFlow id="Flow_1wt84m4" sourceRef="Gateway_03solbg" targetRef="Activity_174dei3" />
-    <bpmn:serviceTask id="Activity_174dei3" name="Zahlung&#10;ausführen" camunda:expression="${invoiceExecutables.executePayment(invoiceId)}">
+    <bpmn:sequenceFlow id="Flow_1wt84m4" sourceRef="Gateway_03solbg" targetRef="Task_ZahlungAusfuehren" />
+    <bpmn:serviceTask id="Task_ZahlungAusfuehren" name="Zahlung&#10;ausführen" camunda:expression="${invoiceExecutables.executePayment(invoiceId)}">
       <bpmn:incoming>Flow_1wt84m4</bpmn:incoming>
       <bpmn:outgoing>Flow_15lhw7i</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -22,27 +21,28 @@
       <bpmn:incoming>Flow_0ylzye6</bpmn:incoming>
       <bpmn:outgoing>Flow_1puzj5n</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1kjmwru" sourceRef="Activity_0pu6l5c" targetRef="Gateway_09wispr" />
-    <bpmn:sequenceFlow id="Flow_1puzj5n" sourceRef="Gateway_09wispr" targetRef="Activity_0njcqrm" />
+    <bpmn:sequenceFlow id="Flow_1kjmwru" sourceRef="Task_DatenAuslesen" targetRef="Gateway_09wispr" />
+    <bpmn:sequenceFlow id="Flow_1puzj5n" sourceRef="Gateway_09wispr" targetRef="Task_RechnungPruefen" />
     <bpmn:endEvent id="Event_019baa4" name="Rechnung&#10;bezahlt">
       <bpmn:incoming>Flow_15lhw7i</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_15lhw7i" sourceRef="Activity_174dei3" targetRef="Event_019baa4" />
-    <bpmn:sequenceFlow id="Flow_1w2qq94" sourceRef="Gateway_03solbg" targetRef="Activity_0z4q4fs">
+    <bpmn:sequenceFlow id="Flow_15lhw7i" sourceRef="Task_ZahlungAusfuehren" targetRef="Event_019baa4" />
+    <bpmn:sequenceFlow id="Flow_1w2qq94" sourceRef="Gateway_03solbg" targetRef="Task_DatenKorrigieren">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "false"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0ylzye6" sourceRef="Activity_0z4q4fs" targetRef="Gateway_09wispr" />
-    <bpmn:userTask id="Activity_0z4q4fs" name="Daten korrigieren">
+    <bpmn:sequenceFlow id="Flow_0ylzye6" sourceRef="Task_DatenKorrigieren" targetRef="Gateway_09wispr" />
+    <bpmn:userTask id="Task_DatenKorrigieren" name="Daten korrigieren">
       <bpmn:incoming>Flow_1w2qq94</bpmn:incoming>
       <bpmn:outgoing>Flow_0ylzye6</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Activity_0njcqrm" name="Rechnung prüfen">
-      <bpmn:incoming>Flow_1puzj5n</bpmn:incoming>
-      <bpmn:outgoing>Flow_0tgkame</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:startEvent id="Event_Rechnung_erhalten" name="Rechnung erhalten" camunda:asyncAfter="true">
       <bpmn:outgoing>Flow_0kj9ysj</bpmn:outgoing>
     </bpmn:startEvent>
+    <bpmn:userTask id="Task_RechnungPruefen" name="Rechnung prüfen">
+      <bpmn:incoming>Flow_1puzj5n</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tgkame</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0tgkame" sourceRef="Task_RechnungPruefen" targetRef="Gateway_03solbg" />
   </bpmn:process>
   <bpmn:message id="Message_0y34fa2" name="Invoice" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -81,7 +81,7 @@
         <di:waypoint x="400" y="220" />
         <di:waypoint x="400" y="145" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1eueapj_di" bpmnElement="Activity_0pu6l5c">
+      <bpmndi:BPMNShape id="Activity_1eueapj_di" bpmnElement="Task_DatenAuslesen">
         <dc:Bounds x="250" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_09wispr_di" bpmnElement="Gateway_09wispr" isMarkerVisible="true">
@@ -90,13 +90,13 @@
       <bpmndi:BPMNShape id="Gateway_03solbg_di" bpmnElement="Gateway_03solbg" isMarkerVisible="true">
         <dc:Bounds x="595" y="95" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0lpgdce_di" bpmnElement="Activity_174dei3">
+      <bpmndi:BPMNShape id="Activity_0lpgdce_di" bpmnElement="Task_ZahlungAusfuehren">
         <dc:Bounds x="690" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1q5ynym_di" bpmnElement="Activity_0njcqrm">
+      <bpmndi:BPMNShape id="Activity_1q5ynym_di" bpmnElement="Task_RechnungPruefen">
         <dc:Bounds x="460" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1auz0el_di" bpmnElement="Activity_0z4q4fs">
+      <bpmndi:BPMNShape id="Activity_1auz0el_di" bpmnElement="Task_DatenKorrigieren">
         <dc:Bounds x="460" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1x8342h_di" bpmnElement="Event_Rechnung_erhalten">

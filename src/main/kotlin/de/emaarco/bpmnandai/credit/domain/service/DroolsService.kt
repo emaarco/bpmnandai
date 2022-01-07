@@ -4,7 +4,6 @@ import de.emaarco.bpmnandai.credit.infrastructure.entity.BankLoanRequestEntity
 import org.kie.dmn.api.core.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class DroolsService(private val dmnRuntime: DMNRuntime) {
@@ -20,7 +19,7 @@ class DroolsService(private val dmnRuntime: DMNRuntime) {
 
     fun evaluateCreditApprovalDecisionModel(request: BankLoanRequestEntity): String {
         val dmnModel: DMNModel = initializeModel()
-        val isApproved: DMNDecisionResult = executeDecisionModel(dmnModel, request)
+        val isApproved = executeDecisionModel(dmnModel, request)
         return mapResult(isApproved)
     }
 
@@ -28,18 +27,17 @@ class DroolsService(private val dmnRuntime: DMNRuntime) {
         return dmnRuntime.getModel(dmnModelNameSpace, dmnModelName)
     }
 
-    private fun executeDecisionModel(dmnModel: DMNModel, request: BankLoanRequestEntity): DMNDecisionResult {
+    private fun executeDecisionModel(dmnModel: DMNModel, request: BankLoanRequestEntity): DMNDecisionResult? {
         val context: DMNContext = initializeContext(request)
         val dmnResult: DMNResult = dmnRuntime.evaluateAll(dmnModel, context)
         return dmnResult.getDecisionResultByName(dmnModelOutput)
     }
 
-    private fun mapResult(result: DMNDecisionResult): String {
-        val rawResult: Any = result.result
-        return if (Objects.isNull(rawResult)) {
+    private fun mapResult(result: DMNDecisionResult?): String {
+        return if ((result == null) || (result.result == null)) {
             "UNKNOWN"
         } else {
-            rawResult as String
+            result.result as String
         }
     }
 
