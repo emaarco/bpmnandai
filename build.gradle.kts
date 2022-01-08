@@ -8,12 +8,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.jpa") version "1.6.10"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
-}
+    kotlin("kapt") version "1.6.10"
 
-allOpen {
-    annotation("javax.persistence.Entity")
-    annotation("javax.persistence.MappedSuperclass")
-    annotation("javax.persistence.Embeddable")
 }
 
 group = "de.emaarco"
@@ -22,6 +18,12 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+}
+
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
 }
 
 dependencies {
@@ -34,6 +36,10 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    // Mapstruct
+    implementation("org.mapstruct:mapstruct:1.5.0.Beta2")
+    kapt("org.mapstruct:mapstruct-processor:1.5.0.Beta2")
 
     // Camunda
     implementation("org.camunda.bpm:camunda-engine-spring:7.16.0")
@@ -49,12 +55,20 @@ dependencies {
     implementation("org.kie:kie-dmn-jpmml:7.63.0.Final")
     implementation("org.jpmml:pmml-evaluator:1.5.16")
 
-    // Other dependencies
     implementation("org.json:json:20211205")
     implementation("io.github.microutils:kotlin-logging:2.1.21")
 
     // Unit-testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+kapt {
+    arguments {
+        // Set Mapstruct Configuration options here
+        // https://kotlinlang.org/docs/reference/kapt.html#annotation-processor-arguments
+        // https://mapstruct.org/documentation/stable/reference/html/#configuration-options
+        // arg("mapstruct.defaultComponentModel", "spring")
+    }
 }
 
 tasks.withType<KotlinCompile> {

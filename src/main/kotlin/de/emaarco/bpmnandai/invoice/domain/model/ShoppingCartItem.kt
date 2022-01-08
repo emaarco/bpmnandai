@@ -2,28 +2,28 @@ package de.emaarco.bpmnandai.invoice.domain.model
 
 import org.json.JSONObject
 
-class ShoppingCartItem(jsonObject: JSONObject) {
+data class ShoppingCartItem(
+    val id: Long,
+    val description: String,
+    val discount: Double,
+    val order: Long,
+    val price: Double,
+    val quantity: Double,
+    val tax: Double,
+    val total: Double,
+    val unitOfMeasure: String
+) {
 
-    private val id: Long
-    private val description: String
-    private val discount: Double
-    private val order: Long
-    private val price: Double
-    private val quantity: Double
-    private val tax: Double
-    private val total: Double
-    private val unitOfMeasure: String
-
-    init {
-        this.id = jsonObject.getLong("id")
-        this.description = jsonObject.getString("description")
-        this.discount = jsonObject.getDouble("discount")
-        this.order = jsonObject.getLong("order")
-        this.price = jsonObject.getDouble("price")
-        this.quantity = jsonObject.getDouble("quantity")
-        this.tax = jsonObject.getDouble("tax")
-        this.total = jsonObject.getDouble("total")
-        this.unitOfMeasure = jsonObject.getString("unit_of_measure")
-    }
+    constructor(jsonObject: JSONObject): this(
+        jsonObject.getLong("id"),
+        jsonObject.getString("description"),
+        jsonObject.getDouble("discount"),
+        jsonObject.getLong("order"),
+        jsonObject.getDouble("price"),
+        jsonObject.getDouble("quantity"),
+        jsonObject.getDouble("tax"),
+        jsonObject.getDouble("total"),
+        jsonObject.getString("unit_of_measure")
+    )
 
 }

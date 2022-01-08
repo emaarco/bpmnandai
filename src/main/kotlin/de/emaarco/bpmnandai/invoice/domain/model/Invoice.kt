@@ -1,35 +1,40 @@
 package de.emaarco.bpmnandai.invoice.domain.model
 
+import de.emaarco.bpmnandai.shared.annotations.Default
+import org.json.JSONArray
 import org.json.JSONObject
 
-class Invoice(jsonObject: JSONObject) {
+data class Invoice @Default constructor(
+    val invoiceNumber: String,
+    val orderNumber: String,
+    val date: String,
+    val cartItems: MutableList<ShoppingCartItem>,
+    val vendor: Vendor,
+    val vendorIban: String,
+    val subtotal: Double,
+    val shipping: Double,
+    val tax: Double,
+    val total: Double,
+) {
 
-    private val invoiceNumber: String
-    private val orderNumber: String
-    private val date: String
-    private val cartItems: MutableList<ShoppingCartItem>
-    private val vendor: Vendor
-    private val vendorIban: String
-    private val subtotal: Double
-    private val shipping: Double
-    private val tax: Double
-    private val total: Double
+    constructor(jsonObject: JSONObject): this(
+        jsonObject.getString("invoice_number"),
+        jsonObject.getString("purchase_order_number"),
+        jsonObject.getString("date"),
+        ArrayList(),
+        Vendor(jsonObject.getJSONObject("vendor")),
+        jsonObject.getString("vendor_iban"),
+        jsonObject.getDouble("subtotal"),
+        jsonObject.getDouble("shipping"),
+        jsonObject.getDouble("tax"),
+        jsonObject.getDouble("total")
+    ) {
+        initShoppingCart(jsonObject.getJSONArray("line_items"))
+    }
 
-    init {
-        this.invoiceNumber = jsonObject.getString("invoice_number")
-        this.orderNumber = jsonObject.getString("purchase_order_number")
-        this.date = jsonObject.getString("date")
-        this.vendorIban = jsonObject.getString("vendor_iban")
-        this.subtotal = jsonObject.getDouble("subtotal")
-        this.shipping = jsonObject.getDouble("shipping")
-        this.tax = jsonObject.getDouble("tax")
-        this.total = jsonObject.getDouble("total")
-        val rawVendor: JSONObject = jsonObject.getJSONObject("vendor")
-        this.vendor = Vendor(rawVendor)
-        this.cartItems = ArrayList()
-        val allItems = jsonObject.getJSONArray("line_items")
-        for (i in 0 until allItems.length()) {
-            val item = allItems.get(i)
+    private fun initShoppingCart(jsonShoppingCart: JSONArray) {
+        for (i in 0 until jsonShoppingCart.length()) {
+            val item = jsonShoppingCart.get(i)
             item is JSONObject && cartItems.add(ShoppingCartItem(item));
         }
     }
