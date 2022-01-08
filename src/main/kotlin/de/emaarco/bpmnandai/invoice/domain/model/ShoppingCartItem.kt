@@ -1,8 +1,9 @@
 package de.emaarco.bpmnandai.invoice.domain.model
 
+import de.emaarco.bpmnandai.shared.annotations.Default
 import org.json.JSONObject
 
-data class ShoppingCartItem(
+data class ShoppingCartItem @Default constructor(
     val id: Long,
     val description: String,
     val discount: Double,
