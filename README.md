@@ -9,6 +9,8 @@ durch den Einsatz von <b>Künstlicher Intelligenz</b> automatisiert werden</p>
 und angesprochen durch die Camunda DMN-Engine, 
 welche direkt in die Camunda BPMN Engine integriert ist</p>
 
+![KI - integriert in Prozess durch Decision Table](docs/credit-request-de.png)
+
 ---
 
 ### KI im PMML-Format in DMN-Model einbinden
