@@ -1,12 +1,14 @@
 package de.emaarco.bpmnandai.camunda.api
 
 import de.emaarco.bpmnandai.camunda.domain.ProcessService
+import io.swagger.v3.oas.annotations.tags.Tag
 import mu.KotlinLogging
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/process")
+@Tag(name = "Process Controller")
 class ProcessController(private val processService: ProcessService) {
 
     val log = KotlinLogging.logger {}

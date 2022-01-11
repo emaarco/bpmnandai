@@ -23,6 +23,7 @@ class InvoiceExecutables(private val invoiceFacade: InvoiceFacade) {
      */
     fun executePayment(invoiceId: String) {
         log.info("Received request to execute the payment of invoice '${invoiceId}'")
+        invoiceFacade.executePayment(invoiceId)
     }
 
 }

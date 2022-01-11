@@ -55,8 +55,10 @@ dependencies {
     implementation("org.kie:kie-dmn-jpmml:7.63.0.Final")
     implementation("org.jpmml:pmml-evaluator:1.5.16")
 
+    // Other dependencies
     implementation("org.json:json:20211205")
     implementation("io.github.microutils:kotlin-logging:2.1.21")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.4")
 
     // Unit-testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")

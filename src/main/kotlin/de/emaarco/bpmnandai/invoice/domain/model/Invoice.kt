@@ -5,31 +5,44 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 data class Invoice @Default constructor(
-    val invoiceNumber: String,
-    val orderNumber: String,
-    val date: String,
+    val uploadId: String,
+    var invoiceNumber: String,
+    var orderNumber: String,
+    var date: String,
     val cartItems: MutableList<ShoppingCartItem>,
-    val vendor: Vendor,
-    val vendorIban: String,
-    val subtotal: Double,
-    val shipping: Double,
-    val tax: Double,
-    val total: Double,
+    var vendor: Vendor,
+    var subtotal: Double,
+    var shipping: Double,
+    var tax: Double,
+    var total: Double,
 ) {
 
-    constructor(jsonObject: JSONObject): this(
+    constructor(uploadId: String, jsonObject: JSONObject) : this(
+        uploadId,
         jsonObject.getString("invoice_number"),
         jsonObject.getString("purchase_order_number"),
         jsonObject.getString("date"),
         ArrayList(),
-        Vendor(jsonObject.getJSONObject("vendor")),
-        jsonObject.getString("vendor_iban"),
+        Vendor(jsonObject.getJSONObject("vendor"), jsonObject.getString("vendor_iban")),
         jsonObject.getDouble("subtotal"),
         jsonObject.getDouble("shipping"),
         jsonObject.getDouble("tax"),
         jsonObject.getDouble("total")
     ) {
         initShoppingCart(jsonObject.getJSONArray("line_items"))
+    }
+
+    fun updateInvoice(updatedInvoice: UpdatedInvoice) {
+        this.invoiceNumber = updatedInvoice.invoiceNumber
+        this.orderNumber = updatedInvoice.orderNumber
+        this.date = updatedInvoice.date
+        this.subtotal = updatedInvoice.subtotal
+        this.shipping = updatedInvoice.shipping
+        this.tax = updatedInvoice.tax
+        this.total = updatedInvoice.total
+        this.vendor = updatedInvoice.vendor
+        this.cartItems.clear()
+        this.cartItems.addAll(updatedInvoice.cartItems)
     }
 
     private fun initShoppingCart(jsonShoppingCart: JSONArray) {

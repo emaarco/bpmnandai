@@ -36,76 +36,98 @@
       <bpmn:text>Entscheidung über dedizierte DMN-Engine + PMML (Drools)</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0uzwily" sourceRef="Task_KreditwuerdigkeitPruefen" targetRef="TextAnnotation_1jo0p15" />
+    <bpmn:textAnnotation id="TextAnnotation_0r5r1p6">
+      <bpmn:text>Prüfen, wenn abgelehnt --&gt; da Ziel: so viele Kredite wie möglich</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1sazc0e" sourceRef="Task_KreditwuerdigkeitPruefen" targetRef="TextAnnotation_0r5r1p6" />
+    <bpmn:textAnnotation id="TextAnnotation_0rq7gqa">
+      <bpmn:text>Stichproben / Hohe Betrage prüfen, wenn ja ---&gt; Gemessen an Genauigkeit des Models / etc.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0smejoe" sourceRef="Task_KreditwuerdigkeitPruefen" targetRef="TextAnnotation_0rq7gqa" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_KreditAnfrage_Ext">
+      <bpmndi:BPMNShape id="TextAnnotation_1jo0p15_di" bpmnElement="TextAnnotation_1jo0p15" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="210" y="100" width="175" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0r5r1p6_di" bpmnElement="TextAnnotation_0r5r1p6">
+        <dc:Bounds x="450" y="80" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0rq7gqa_di" bpmnElement="TextAnnotation_0rq7gqa">
+        <dc:Bounds x="320" y="420" width="100" height="110" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_129jwl4_di" bpmnElement="Flow_129jwl4">
-        <di:waypoint x="540" y="165" />
-        <di:waypoint x="540" y="85" />
-        <di:waypoint x="692" y="85" />
+        <di:waypoint x="540" y="275" />
+        <di:waypoint x="540" y="195" />
+        <di:waypoint x="692" y="195" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0xry58k_di" bpmnElement="Flow_0xry58k">
-        <di:waypoint x="540" y="215" />
-        <di:waypoint x="540" y="300" />
-        <di:waypoint x="692" y="300" />
+        <di:waypoint x="540" y="325" />
+        <di:waypoint x="540" y="410" />
+        <di:waypoint x="692" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="548" y="243" width="23" height="14" />
+          <dc:Bounds x="548" y="353" width="23" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_14h6iej_di" bpmnElement="Flow_14h6iej">
-        <di:waypoint x="565" y="190" />
-        <di:waypoint x="692" y="190" />
+        <di:waypoint x="565" y="300" />
+        <di:waypoint x="692" y="300" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="604" y="172" width="12" height="14" />
+          <dc:Bounds x="604" y="282" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0r2nsng_di" bpmnElement="Flow_0r2nsng">
-        <di:waypoint x="450" y="190" />
-        <di:waypoint x="515" y="190" />
+        <di:waypoint x="450" y="300" />
+        <di:waypoint x="515" y="300" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_11m0sha_di" bpmnElement="Flow_11m0sha">
-        <di:waypoint x="258" y="190" />
-        <di:waypoint x="350" y="190" />
+        <di:waypoint x="258" y="300" />
+        <di:waypoint x="350" y="300" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Event_AnfrageErhalten">
-        <dc:Bounds x="222" y="172" width="36" height="36" />
+        <dc:Bounds x="222" y="282" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="199" y="215" width="82" height="14" />
+          <dc:Bounds x="199" y="325" width="82" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1jgd3vm_di" bpmnElement="Event_KreditGewaehrt">
-        <dc:Bounds x="692" y="172" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="679" y="215" width="62" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1cz701a_di" bpmnElement="Task_KreditwuerdigkeitPruefen" bioc:stroke="black" bioc:fill="white">
-        <dc:Bounds x="350" y="150" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0i0pvan_di" bpmnElement="Gateway_IstKreditwuerdig" isMarkerVisible="true">
-        <dc:Bounds x="515" y="165" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="477" y="208" width="46" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0g0b2u9_di" bpmnElement="Event_KreditAbgelehnt">
         <dc:Bounds x="692" y="282" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="679" y="325" width="62" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0h1r769_di" bpmnElement="Event_0h1r769">
-        <dc:Bounds x="692" y="67" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_1cz701a_di" bpmnElement="Task_KreditwuerdigkeitPruefen" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="350" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0i0pvan_di" bpmnElement="Gateway_IstKreditwuerdig" isMarkerVisible="true">
+        <dc:Bounds x="515" y="275" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="680" y="110" width="60" height="27" />
+          <dc:Bounds x="477" y="318" width="46" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1jo0p15_di" bpmnElement="TextAnnotation_1jo0p15" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <dc:Bounds x="340" y="60" width="175" height="54" />
+      <bpmndi:BPMNShape id="Event_0g0b2u9_di" bpmnElement="Event_KreditAbgelehnt">
+        <dc:Bounds x="692" y="392" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="679" y="435" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0h1r769_di" bpmnElement="Event_0h1r769">
+        <dc:Bounds x="692" y="177" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="680" y="220" width="60" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0uzwily_di" bpmnElement="Association_0uzwily">
-        <di:waypoint x="395" y="150" />
-        <di:waypoint x="391" y="114" />
+        <di:waypoint x="366" y="260" />
+        <di:waypoint x="280" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1sazc0e_di" bpmnElement="Association_1sazc0e">
+        <di:waypoint x="420" y="260" />
+        <di:waypoint x="467" y="162" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0smejoe_di" bpmnElement="Association_0smejoe">
+        <di:waypoint x="391" y="340" />
+        <di:waypoint x="373" y="420" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
