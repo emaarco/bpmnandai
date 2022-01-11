@@ -14,7 +14,7 @@ class InvoiceExecutables(private val invoiceFacade: InvoiceFacade) {
      * (...invoice positions and details about the receiver...)
      */
     fun extractDataFromInvoice(invoiceId: String) {
-        log.info("Extract metadata and invoice-positions from provided invoice")
+        log.info { "Extract metadata and invoice-positions from provided invoice" }
         invoiceFacade.extractDataFromInvoice(invoiceId)
     }
 
@@ -22,7 +22,7 @@ class InvoiceExecutables(private val invoiceFacade: InvoiceFacade) {
      * A service-task that executes the payment (...after the invoice got released...)
      */
     fun executePayment(invoiceId: String) {
-        log.info("Received request to execute the payment of invoice '${invoiceId}'")
+        log.info { "Received request to execute the payment of invoice '$invoiceId'" }
         invoiceFacade.executePayment(invoiceId)
     }
 

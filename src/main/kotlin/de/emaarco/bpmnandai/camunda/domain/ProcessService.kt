@@ -40,7 +40,7 @@ class ProcessService(
     fun getProcessVariable(businessKey: String, variableName: String): Any {
         val execution = getExecution(businessKey)
         return camundaRuntimeService.getVariable(execution.id, variableName)
-            ?: throw ObjectNotFoundException("Variable '$variableName' does not exist");
+            ?: throw ObjectNotFoundException("Variable '$variableName' does not exist")
     }
 
     private fun getExecution(businessKey: String): Execution {

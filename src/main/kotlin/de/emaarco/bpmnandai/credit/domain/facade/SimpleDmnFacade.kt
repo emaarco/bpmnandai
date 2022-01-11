@@ -14,7 +14,7 @@ class SimpleDmnFacade(
 ) {
 
     private val log = KotlinLogging.logger {}
-    private val PROCESS_KEY = "Process_KreditAnfrage"
+    private val processKey = "Process_KreditAnfrage"
 
     fun processLoanRequests() {
         val entities: List<BankLoanRequestEntity> = creditService.getAllRequests()
@@ -23,9 +23,9 @@ class SimpleDmnFacade(
         for (request in entities) {
             val processVariables = getProcessVariables(request)
             val businessKey: String = request.requestId
-            processService.startInstanceOfProcess(PROCESS_KEY, businessKey, processVariables)
+            processService.startInstanceOfProcess(processKey, businessKey, processVariables)
             currentIteration++
-            log.info("Provided loan-request '${currentIteration}' of '${totalEntries}' to engine")
+            log.info("Provided loan-request '$currentIteration' of '$totalEntries' to engine")
         }
     }
 

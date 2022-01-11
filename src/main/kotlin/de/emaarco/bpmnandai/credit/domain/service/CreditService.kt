@@ -14,7 +14,7 @@ class CreditService(private val bankRepository: BankLoanRequestRepository) {
 
     fun getSpecificRequest(requestId: String): BankLoanRequestEntity {
         return bankRepository.findByRequestId(requestId)
-            ?: throw ObjectNotFoundException("There is no request with the id '${requestId}'")
+            ?: throw ObjectNotFoundException("There is no request with the id '$requestId'")
     }
 
     fun saveCreditRequests(requests: List<BankLoanRequestEntity>) {

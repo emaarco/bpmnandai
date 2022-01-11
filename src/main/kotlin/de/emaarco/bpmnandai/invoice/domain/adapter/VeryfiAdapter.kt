@@ -20,10 +20,10 @@ class VeryfiAdapter {
     private val url = "https://api.veryfi.com/api/v7/partner/documents/"
 
     @Value("\${api.veryfi.clientId}")
-    private lateinit var clientIdTest: String
+    private lateinit var clientId: String
 
     @Value("\${api.veryfi.authorization}")
-    private lateinit var authTest: String
+    private lateinit var authorization: String
 
     fun processInvoice(file: String, fileName: String): JSONObject {
         val headers = getRequestHeader()
@@ -45,16 +45,16 @@ class VeryfiAdapter {
     private fun getRequestHeader(): HttpHeaders {
         val headers = HttpHeaders();
         headers.contentType = MediaType.APPLICATION_JSON
-        headers.add("CLIENT-ID", clientIdTest)
-        headers.add("AUTHORIZATION", authTest)
-        return headers;
+        headers.add("CLIENT-ID", clientId)
+        headers.add("AUTHORIZATION", authorization)
+        return headers
     }
 
     private fun getRequestBody(file: String, fileName: String): JSONObject {
         val requestBody = JSONObject()
         requestBody.put("file_data", file)
         requestBody.put("file_name", fileName)
-        return requestBody;
+        return requestBody
     }
 
     private fun getFallbackResponse(): JSONObject {
