@@ -23,6 +23,8 @@ class DroolsService(private val dmnRuntime: DMNRuntime) {
         return mapResult(isApproved)
     }
 
+    /* ------------------------- private helper methods ------------------------- */
+
     private fun initializeModel(): DMNModel {
         return dmnRuntime.getModel(dmnModelNameSpace, dmnModelName)
     }

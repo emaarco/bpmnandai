@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import java.io.File
 
+/**
+ * Adapter to interact with the 'veryfi' api
+ * (...which is used to extract data from invoices...)
+ */
 @Component
 class VeryfiAdapter {
 
@@ -30,6 +34,8 @@ class VeryfiAdapter {
         val requestBody = getRequestBody(file, fileName);
         return processInvoiceSafe(requestBody, headers);
     }
+
+    /* ------------------------- private helper methods ------------------------- */
 
     private fun processInvoiceSafe(requestBody: JSONObject, headers: HttpHeaders): JSONObject {
         return try {

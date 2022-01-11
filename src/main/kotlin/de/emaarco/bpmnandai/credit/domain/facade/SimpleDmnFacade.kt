@@ -4,7 +4,6 @@ import de.emaarco.bpmnandai.camunda.domain.ProcessService
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
 import de.emaarco.bpmnandai.credit.infrastructure.entity.BankLoanRequestEntity
 import mu.KotlinLogging
-import org.camunda.bpm.engine.history.HistoricProcessInstance
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,31 +13,27 @@ class SimpleDmnFacade(
 ) {
 
     private val log = KotlinLogging.logger {}
-    private val processKey = "Process_KreditAnfrage"
+    private val processKey = "Prozess_KreditAnfrage"
 
     fun processLoanRequests() {
         val entities: List<BankLoanRequestEntity> = creditService.getAllRequests()
         val totalEntries = entities.size
         var currentIteration = 0
         for (request in entities) {
-            val processVariables = getProcessVariables(request)
             val businessKey: String = request.requestId
+            val processVariables = getProcessVariables(request)
             processService.startInstanceOfProcess(processKey, businessKey, processVariables)
             currentIteration++
             log.info("Provided loan-request '$currentIteration' of '$totalEntries' to engine")
         }
     }
 
-    fun addHistory() {
-        val entities: List<BankLoanRequestEntity> = creditService.getAllRequests()
-        var iteration = 0;
-        val historic: List<HistoricProcessInstance> = processService.getAllHistoricProcessInstances()
-        historic.forEach { instance ->
-            val entity: BankLoanRequestEntity? = entities.find { e -> e.requestId == instance.businessKey };
-            entity?.predictionIsApproved = instance.endActivityId
-            log.info("Requested result nr. '${++iteration}'")
-        };
-        creditService.saveCreditRequests(entities)
+    fun saveResultOfCreditworthinessCheck(requestId: String) {
+        val approved = processService.getProcessVariable(requestId, "approved") as String
+        val creditRequest = creditService.getSpecificRequest(requestId)
+        creditRequest.predictionIsApproved = approved
+        creditService.saveCreditRequest(creditRequest)
+        log.debug { "Updated credit-request '$requestId' with result of creditworthiness check" }
     }
 
     private fun getProcessVariables(entity: BankLoanRequestEntity): Map<String, Any?> {
@@ -54,6 +49,7 @@ class SimpleDmnFacade(
         varMap["existing_emi"] = entity.existingEmi
         varMap["loan_amount"] = entity.loanAmount
         varMap["contacted"] = entity.contacted
+        varMap["requestId"] = entity.requestId
         return varMap
     }
 

@@ -25,7 +25,6 @@ class CreditController(
     fun processRequestsWithDecisionTable(): ResponseEntity<Void> {
         log.debug("Request request to process credit-requests (with camunda dmn-engine)")
         simpleDmnFacade.processLoanRequests()
-        simpleDmnFacade.addHistory()
         return ResponseEntity.ok().build()
     }
 
