@@ -10,7 +10,6 @@ import mu.KotlinLogging
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import java.util.*
-import kotlin.system.exitProcess
 
 @Service
 class InvoiceService(
@@ -25,21 +24,13 @@ class InvoiceService(
         return findInvoice(uploadId)
     }
 
-    /**
-     * TODO: remove try-catch if secure
-     */
     fun extractDataFromInvoice(uploadId: String, file: ByteArray) {
         var invoiceAsBase64 = Base64.getEncoder().encodeToString(file)
         invoiceAsBase64 = "data:application/pdf;base64,${invoiceAsBase64}"
-        try {
-            val jsonResponse = verifyAdapter.processInvoice(invoiceAsBase64, "invoice.pdf")
-            val extractedInvoice = Invoice(uploadId, jsonResponse)
-            saveInvoice(extractedInvoice)
-            log.info { "Successfully extracted data from invoice '${uploadId}'" }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            exitProcess(1)
-        }
+        val jsonResponse = verifyAdapter.processInvoice(invoiceAsBase64, "invoice.pdf")
+        val extractedInvoice = Invoice(uploadId, jsonResponse)
+        saveInvoice(extractedInvoice)
+        log.info { "Extracted data from invoice '${uploadId}'" }
     }
 
     fun approveInvoice(uploadId: String, updatedInvoice: UpdatedInvoice?): Invoice {
