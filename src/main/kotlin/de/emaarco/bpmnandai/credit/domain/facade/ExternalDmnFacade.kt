@@ -3,7 +3,7 @@ package de.emaarco.bpmnandai.credit.domain.facade
 import de.emaarco.bpmnandai.camunda.domain.ProcessService
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
 import de.emaarco.bpmnandai.credit.domain.service.DroolsService
-import de.emaarco.bpmnandai.credit.infrastructure.entity.BankLoanRequestEntity
+import de.emaarco.bpmnandai.credit.infrastructure.entity.CreditRequestEntity
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 
@@ -18,7 +18,7 @@ class ExternalDmnFacade(
     private val processKey = "Process_KreditAnfrage_Ext"
 
     fun processLoanRequests() {
-        val allRequests: List<BankLoanRequestEntity> = creditService.getAllRequests()
+        val allRequests: List<CreditRequestEntity> = creditService.getAllRequests()
         var iterationCounter = 1
         for (request in allRequests) {
             val businessKey: String = request.requestId
@@ -30,7 +30,7 @@ class ExternalDmnFacade(
     }
 
     fun checkCreditworthiness(requestId: String): String {
-        val bankLoanRequest: BankLoanRequestEntity = creditService.getSpecificRequest(requestId)
+        val bankLoanRequest: CreditRequestEntity = creditService.getSpecificRequest(requestId)
         val result: String = droolsService.evaluateCreditApprovalDecisionModel(bankLoanRequest)
         bankLoanRequest.predictionIsApproved2 = result
         creditService.saveCreditRequest(bankLoanRequest)

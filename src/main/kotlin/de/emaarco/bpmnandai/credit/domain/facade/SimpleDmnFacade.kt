@@ -2,7 +2,7 @@ package de.emaarco.bpmnandai.credit.domain.facade
 
 import de.emaarco.bpmnandai.camunda.domain.ProcessService
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
-import de.emaarco.bpmnandai.credit.infrastructure.entity.BankLoanRequestEntity
+import de.emaarco.bpmnandai.credit.infrastructure.entity.CreditRequestEntity
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 
@@ -16,7 +16,7 @@ class SimpleDmnFacade(
     private val processKey = "Prozess_KreditAnfrage"
 
     fun processLoanRequests() {
-        val entities: List<BankLoanRequestEntity> = creditService.getAllRequests()
+        val entities: List<CreditRequestEntity> = creditService.getAllRequests()
         val totalEntries = entities.size
         var currentIteration = 0
         for (request in entities) {
@@ -36,7 +36,7 @@ class SimpleDmnFacade(
         log.debug { "Updated credit-request '$requestId' with result of creditworthiness check" }
     }
 
-    private fun getProcessVariables(entity: BankLoanRequestEntity): Map<String, Any?> {
+    private fun getProcessVariables(entity: CreditRequestEntity): Map<String, Any?> {
         val varMap: MutableMap<String, Any?> = HashMap()
         varMap["emi"] = entity.emi
         varMap["city_category"] = entity.cityCategory

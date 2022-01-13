@@ -5,7 +5,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity(name = "bank_credit_approval")
-class BankLoanRequestEntity(
+class CreditRequestEntity(
 
     @Id
     @Column(name = "id", nullable = false)
