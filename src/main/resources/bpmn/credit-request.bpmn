@@ -8,7 +8,7 @@
     <bpmn:endEvent id="Event_AnfrageAngenommen" name="Kreditanfrage angenommen">
       <bpmn:incoming>Flow_1ead4e4</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:businessRuleTask id="Task_KreditwuerdigkeitPruefen" name="Kredit-&#10;würdigkeit prüfen" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="approved" camunda:decisionRef="decision_check_creditworthiness" camunda:mapDecisionResult="singleEntry">
+    <bpmn:businessRuleTask id="Task_KreditwuerdigkeitPruefen" name="Kredit-&#10;würdigkeit prüfen" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="creditworthy" camunda:decisionRef="decision_check_creditworthiness" camunda:mapDecisionResult="singleEntry">
       <bpmn:extensionElements>
         <camunda:executionListener expression="${creditExecutables.saveResultOfCreditworthinessCheck(requestId)}" event="end" />
       </bpmn:extensionElements>
@@ -41,10 +41,10 @@
       <bpmn:outgoing>Flow_12g91vy</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0g4qmvn" name="Ja" sourceRef="Gateway_09mnbj5" targetRef="Gateway_1hqvq7q">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "YES"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${creditworthy == "YES"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_06ndqd6" name="Ja" sourceRef="Gateway_IstKreditwuerdig" targetRef="Gateway_1hqvq7q">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "YES"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${creditworthy == "YES"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_12g91vy" sourceRef="Gateway_1hqvq7q" targetRef="Task_AngebotErstellen" />
     <bpmn:sequenceFlow id="Flow_1t6vzn7" name="Nein" sourceRef="Gateway_09mnbj5" targetRef="Event_AnfrageAbgelehnt" />

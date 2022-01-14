@@ -30,10 +30,12 @@ class ExternalDmnFacade(
     }
 
     fun checkCreditworthiness(requestId: String): String {
-        val bankLoanRequest: CreditRequestEntity = creditService.getSpecificRequest(requestId)
+        /*val bankLoanRequest: CreditRequestEntity = creditService.getSpecificRequest(requestId)
         val result: String = droolsService.evaluateCreditApprovalDecisionModel(bankLoanRequest)
         bankLoanRequest.predictionIsApproved2 = result
         creditService.saveCreditRequest(bankLoanRequest)
         return result
+         */
+        return ""
     }
 }
