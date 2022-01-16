@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_00d87wm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="Prozess_RechnungBezahlen" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0kj9ysj" sourceRef="Event_RechnungErhalten" targetRef="Task_DatenAuslesen" />
+    <bpmn:serviceTask id="Task_DatenAuslesen" name="Daten&#10;aus Rechnung&#10;auslesen" camunda:asyncAfter="true" camunda:expression="${invoiceExecutables.extractDataFromInvoice(uploadId)}">
+      <bpmn:incoming>Flow_0kj9ysj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kjmwru</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_ZahlungAusfuehren" name="Zahlung&#10;ausführen" camunda:expression="${invoiceExecutables.executePayment(uploadId)}">
+      <bpmn:incoming>Flow_0mu4bcp</bpmn:incoming>
+      <bpmn:outgoing>Flow_15lhw7i</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1kjmwru" sourceRef="Task_DatenAuslesen" targetRef="Task_RechnungPruefen" />
+    <bpmn:endEvent id="Event_RechnungBezahlt" name="Rechnung&#10;bezahlt">
+      <bpmn:incoming>Flow_15lhw7i</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_15lhw7i" sourceRef="Task_ZahlungAusfuehren" targetRef="Event_RechnungBezahlt" />
+    <bpmn:startEvent id="Event_RechnungErhalten" name="Rechnung hochgeladen" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0kj9ysj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_RechnungPruefen" name="Rechnung prüfen">
+      <bpmn:incoming>Flow_1kjmwru</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mu4bcp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0mu4bcp" sourceRef="Task_RechnungPruefen" targetRef="Task_ZahlungAusfuehren" />
+    <bpmn:textAnnotation id="TextAnnotation_1utjeln">
+      <bpmn:text>Bei Fehlern können Anpassungen vorgenommen werden</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ties2g" sourceRef="Task_RechnungPruefen" targetRef="TextAnnotation_1utjeln" />
+    <bpmn:textAnnotation id="TextAnnotation_0uqqurc">
+      <bpmn:text>mittels OCR (veryfi-API)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0rl8kbc" sourceRef="Task_DatenAuslesen" targetRef="TextAnnotation_0uqqurc" />
+  </bpmn:process>
+  <bpmn:message id="Message_0y34fa2" name="Invoice" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Prozess_RechnungBezahlen">
+      <bpmndi:BPMNEdge id="Flow_0mu4bcp_di" bpmnElement="Flow_0mu4bcp">
+        <di:waypoint x="500" y="200" />
+        <di:waypoint x="540" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15lhw7i_di" bpmnElement="Flow_15lhw7i">
+        <di:waypoint x="640" y="200" />
+        <di:waypoint x="682" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kjmwru_di" bpmnElement="Flow_1kjmwru">
+        <di:waypoint x="360" y="200" />
+        <di:waypoint x="400" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kj9ysj_di" bpmnElement="Flow_0kj9ysj">
+        <di:waypoint x="208" y="200" />
+        <di:waypoint x="260" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1eueapj_di" bpmnElement="Task_DatenAuslesen">
+        <dc:Bounds x="260" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lpgdce_di" bpmnElement="Task_ZahlungAusfuehren">
+        <dc:Bounds x="540" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_019baa4_di" bpmnElement="Event_RechnungBezahlt">
+        <dc:Bounds x="682" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="675" y="225" width="51" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1x8342h_di" bpmnElement="Event_RechnungErhalten">
+        <dc:Bounds x="172" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="225" width="64" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1q5ynym_di" bpmnElement="Task_RechnungPruefen">
+        <dc:Bounds x="400" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1utjeln_di" bpmnElement="TextAnnotation_1utjeln">
+        <dc:Bounds x="430" y="90" width="200" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0uqqurc_di" bpmnElement="TextAnnotation_0uqqurc">
+        <dc:Bounds x="310" y="90" width="90" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1ties2g_di" bpmnElement="Association_1ties2g">
+        <di:waypoint x="463" y="160" />
+        <di:waypoint x="472" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0rl8kbc_di" bpmnElement="Association_0rl8kbc">
+        <di:waypoint x="331" y="160" />
+        <di:waypoint x="347" y="130" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
