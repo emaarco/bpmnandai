@@ -19,8 +19,7 @@ import java.io.File
 class VeryfiAdapter {
 
     private val log = KotlinLogging.logger { }
-
-    private val restTemplate = RestTemplate();
+    private val restTemplate = RestTemplate()
     private val url = "https://api.veryfi.com/api/v7/partner/documents/"
 
     @Value("\${api.veryfi.clientId}")
