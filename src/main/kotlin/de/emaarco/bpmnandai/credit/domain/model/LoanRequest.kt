@@ -5,4 +5,11 @@ data class LoanRequest(
     val applicant: Applicant,
     val creditAmount: Double,
     var creditworthy: String,
-)
+) {
+
+    fun updateResultOfCreditworthinessCheck(creditworthy: Boolean) {
+        this.creditworthy = if (creditworthy) "YES" else "NO"
+    }
+
+}
+

@@ -1,6 +1,7 @@
 package de.emaarco.bpmnandai.camunda.domain
 
 import de.emaarco.bpmnandai.shared.exception.ObjectNotFoundException
+import org.camunda.bpm.engine.HistoryService
 import org.camunda.bpm.engine.RuntimeService
 import org.camunda.bpm.engine.TaskService
 import org.camunda.bpm.engine.runtime.Execution
@@ -8,7 +9,11 @@ import org.camunda.bpm.engine.task.Task
 import org.springframework.stereotype.Service
 
 @Service
-class ProcessService(private val taskService: TaskService, private val runtimeService: RuntimeService) {
+class ProcessService(
+    private val taskService: TaskService,
+    private val runtimeService: RuntimeService,
+    private val historyService: HistoryService,
+) {
 
     fun startInstanceOfProcess(processKey: String?, businessKey: String?, vars: Map<String, Any?>) {
         runtimeService.startProcessInstanceByKey(processKey, businessKey, vars)

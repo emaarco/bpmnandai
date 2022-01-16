@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0n2g3e8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0n2g3e8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
   <bpmn:process id="Prozess_KreditAnfrage" name="Kreditanfrage" isExecutable="true">
     <bpmn:startEvent id="Event_AnfrageErhalten" name="Kreditanfrage&#10;erhalten">
       <bpmn:outgoing>Flow_11m0sha</bpmn:outgoing>
@@ -8,7 +8,7 @@
     <bpmn:endEvent id="Event_AnfrageAngenommen" name="Kreditanfrage angenommen">
       <bpmn:incoming>Flow_1ead4e4</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:businessRuleTask id="Task_KreditwuerdigkeitPruefen" name="Kredit-&#10;würdigkeit prüfen" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="creditworthy" camunda:decisionRef="decision_check_creditworthiness" camunda:mapDecisionResult="singleEntry">
+    <bpmn:businessRuleTask id="Task_KreditwuerdigkeitPruefen" name="Kreditwürdigkeit prüfen" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="creditworthy" camunda:decisionRef="decision_check_creditworthiness" camunda:mapDecisionResult="singleEntry">
       <bpmn:extensionElements>
         <camunda:executionListener expression="${creditExecutables.saveResultOfCreditworthinessCheck(requestId)}" event="end" />
       </bpmn:extensionElements>
@@ -25,16 +25,11 @@
       <bpmn:incoming>Flow_1t6vzn7</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1dbdzv4" name="Nein" sourceRef="Gateway_IstKreditwuerdig" targetRef="Task_AnfrageNachpruefen" />
-    <bpmn:userTask id="Task_AnfrageNachpruefen" name="Nach-&#10;prüfung&#10;der Anfrage">
-      <bpmn:incoming>Flow_1dbdzv4</bpmn:incoming>
-      <bpmn:outgoing>Flow_07y2chx</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:exclusiveGateway id="Gateway_09mnbj5" name="Korrektur&#10;vorgenommen?" default="Flow_1t6vzn7">
       <bpmn:incoming>Flow_07y2chx</bpmn:incoming>
       <bpmn:outgoing>Flow_0g4qmvn</bpmn:outgoing>
       <bpmn:outgoing>Flow_1t6vzn7</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_07y2chx" sourceRef="Task_AnfrageNachpruefen" targetRef="Gateway_09mnbj5" />
     <bpmn:exclusiveGateway id="Gateway_1hqvq7q">
       <bpmn:incoming>Flow_0g4qmvn</bpmn:incoming>
       <bpmn:incoming>Flow_06ndqd6</bpmn:incoming>
@@ -48,7 +43,7 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_12g91vy" sourceRef="Gateway_1hqvq7q" targetRef="Task_AngebotErstellen" />
     <bpmn:sequenceFlow id="Flow_1t6vzn7" name="Nein" sourceRef="Gateway_09mnbj5" targetRef="Event_AnfrageAbgelehnt" />
-    <bpmn:serviceTask id="Task_AngebotErstellen" name="Kredit-&#10;angebot&#10;erstellen" camunda:asyncAfter="true" camunda:expression="${creditExecutables.createCreditOffer(requestId)}">
+    <bpmn:serviceTask id="Task_AngebotErstellen" name="Kreditangebot&#10;erstellen" camunda:asyncAfter="true" camunda:expression="${creditExecutables.createCreditOffer(requestId)}">
       <bpmn:incoming>Flow_12g91vy</bpmn:incoming>
       <bpmn:outgoing>Flow_12rdbav</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -59,6 +54,16 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_0aelo3g" camunda:expression="${creditExecutables.sendCreditOffer(requestId)}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:sequenceFlow id="Flow_1ead4e4" sourceRef="Event_AngebotVersendet" targetRef="Event_AnfrageAngenommen" />
+    <bpmn:userTask id="Task_AnfrageNachpruefen" name="Nachprüfung&#10;der Anfrage">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="creditworthy" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1dbdzv4</bpmn:incoming>
+      <bpmn:outgoing>Flow_07y2chx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_07y2chx" sourceRef="Task_AnfrageNachpruefen" targetRef="Gateway_09mnbj5" />
     <bpmn:textAnnotation id="TextAnnotation_1w23sp7">
       <bpmn:text>...mittels Camunda DMN Engine</bpmn:text>
     </bpmn:textAnnotation>

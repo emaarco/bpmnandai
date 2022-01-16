@@ -5,10 +5,11 @@ import de.emaarco.bpmnandai.credit.domain.model.LoanRequest
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
 import de.emaarco.bpmnandai.credit.domain.service.LoanRequestTestDataService
 import mu.KotlinLogging
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 
 @Component
-class SimpleDmnFacade(
+class CreditFacade(
     private val processService: ProcessService,
     private val creditService: CreditService,
     private val testDataService: LoanRequestTestDataService,
@@ -17,7 +18,13 @@ class SimpleDmnFacade(
     private val log = KotlinLogging.logger {}
     private val processKey = "Prozess_KreditAnfrage"
 
+    fun getSpecificLoanRequest(requestId: String): LoanRequest {
+        return creditService.getSpecificRequest(requestId)
+    }
+
+    @Async
     fun processLoanRequests() {
+        creditService.deleteAllRequests()
         val requests: List<LoanRequest> = testDataService.getAllRequests()
         var currentIteration = 0
         for (request in requests) {
@@ -38,13 +45,19 @@ class SimpleDmnFacade(
         log.debug { "Updated credit-request '$requestId' with result of creditworthiness check" }
     }
 
+    fun recheckLoanRequest(requestId: String, result: Boolean): LoanRequest {
+        return creditService.recheckLoanRequest(requestId, result)
+    }
+
+    /* ------------------------- private helper methods ------------------------- */
+
     private fun getProcessVariables(entity: LoanRequest): Map<String, Any?> {
         val varMap: MutableMap<String, Any?> = HashMap()
         varMap["requestId"] = entity.id
         varMap["gender"] = entity.applicant.gender
         varMap["flag_own_realty"] = entity.applicant.ownsRealty
-        varMap["count_children"] = entity.applicant.nrOfChildren
         varMap["flag_own_car"] = entity.applicant.ownsCar
+        varMap["count_children"] = entity.applicant.nrOfChildren
         varMap["annual_income"] = entity.applicant.annualIncome
         varMap["education_type"] = entity.applicant.educationType
         varMap["family_status"] = entity.applicant.familyStatus

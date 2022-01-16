@@ -44,6 +44,7 @@ dependencies {
     // Camunda
     implementation("org.camunda.bpm:camunda-engine-spring:7.16.0")
     implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.16.0")
+    implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.16.0")
     implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.16.0")
 
     // Drools (Base)
