@@ -36,7 +36,7 @@
       <bpmn:outgoing>Flow_12g91vy</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0g4qmvn" name="Ja" sourceRef="Gateway_09mnbj5" targetRef="Gateway_1hqvq7q">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${creditworthy == "YES"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${recheck_creditworthy == "YES"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_06ndqd6" name="Ja" sourceRef="Gateway_IstKreditwuerdig" targetRef="Gateway_1hqvq7q">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${creditworthy == "YES"}</bpmn:conditionExpression>

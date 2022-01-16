@@ -32,7 +32,7 @@ class InvoiceFacade(private val invoiceService: InvoiceService, private val proc
     }
 
     fun approveInvoice(uploadId: String, invoice: UpdatedInvoice?): Invoice {
-        val approveTask = processService.getTaskForBusinessKey(uploadId)
+        val approveTask = processService.getTaskForBusinessKey(uploadId, "Task_RechnungPruefen")
         val approvedInvoice = invoiceService.approveInvoice(uploadId, invoice)
         processService.finishTask(approveTask.id)
         return approvedInvoice

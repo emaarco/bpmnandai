@@ -5,7 +5,6 @@ import de.emaarco.bpmnandai.credit.domain.model.LoanRequest
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
 import de.emaarco.bpmnandai.credit.domain.service.LoanRequestTestDataService
 import mu.KotlinLogging
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,7 +21,6 @@ class CreditFacade(
         return creditService.getSpecificRequest(requestId)
     }
 
-    @Async
     fun processLoanRequests() {
         creditService.deleteAllRequests()
         val requests: List<LoanRequest> = testDataService.getAllRequests()
@@ -46,7 +44,10 @@ class CreditFacade(
     }
 
     fun recheckLoanRequest(requestId: String, result: Boolean): LoanRequest {
-        return creditService.recheckLoanRequest(requestId, result)
+        val taskId = processService.getTaskForBusinessKey(requestId, "Task_AnfrageNachpruefen").id
+        val updatedRequest = creditService.recheckLoanRequest(requestId, result)
+        processService.finishTask(taskId, mapOf("recheck_creditworthy" to updatedRequest.creditworthy))
+        return updatedRequest
     }
 
     /* ------------------------- private helper methods ------------------------- */
