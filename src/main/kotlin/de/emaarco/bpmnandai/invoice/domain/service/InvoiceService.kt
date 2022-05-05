@@ -35,7 +35,7 @@ class InvoiceService(
 
     fun approveInvoice(uploadId: String, updatedInvoice: UpdatedInvoice?): Invoice {
         val matchingInvoice = findInvoice(uploadId)
-        updatedInvoice?.let { invoiceData -> updateInvoice(matchingInvoice, invoiceData) }
+        updatedInvoice?.let { invoiceData -> updateAndApproveInvoice(matchingInvoice, invoiceData) }
         log.info { "Successfully approved invoice with uploadId '$uploadId'" }
         return matchingInvoice
     }
@@ -46,7 +46,7 @@ class InvoiceService(
 
     /* ------------------------- private helper methods ------------------------- */
 
-    private fun updateInvoice(invoice: Invoice, updateData: UpdatedInvoice) {
+    private fun updateAndApproveInvoice(invoice: Invoice, updateData: UpdatedInvoice) {
         invoice.updateInvoice(updateData)
         saveInvoice(invoice)
         log.debug { "Successfully updated invoice: $invoice" }
