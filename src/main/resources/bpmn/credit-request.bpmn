@@ -22,7 +22,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0r2nsng" sourceRef="Task_KreditwuerdigkeitPruefen" targetRef="Gateway_IstKreditwuerdig" />
     <bpmn:endEvent id="Event_AnfrageAbgelehnt" name="Kreditanfrage abgelehnt">
-      <bpmn:incoming>Flow_1t6vzn7</bpmn:incoming>
+      <bpmn:incoming>Flow_1839a38</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1dbdzv4" name="Nein" sourceRef="Gateway_IstKreditwuerdig" targetRef="Task_AnfrageNachpruefen" />
     <bpmn:exclusiveGateway id="Gateway_09mnbj5" name="Korrektur&#10;vorgenommen?" default="Flow_1t6vzn7">
@@ -42,7 +42,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${creditworthy == "YES"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_12g91vy" sourceRef="Gateway_1hqvq7q" targetRef="Task_AngebotErstellen" />
-    <bpmn:sequenceFlow id="Flow_1t6vzn7" name="Nein" sourceRef="Gateway_09mnbj5" targetRef="Event_AnfrageAbgelehnt" />
+    <bpmn:sequenceFlow id="Flow_1t6vzn7" name="Nein" sourceRef="Gateway_09mnbj5" targetRef="Task_AblehnungInfo" />
     <bpmn:serviceTask id="Task_AngebotErstellen" name="Kreditangebot&#10;erstellen" camunda:asyncAfter="true" camunda:expression="${creditExecutables.createCreditOffer(requestId)}">
       <bpmn:incoming>Flow_12g91vy</bpmn:incoming>
       <bpmn:outgoing>Flow_12rdbav</bpmn:outgoing>
@@ -64,6 +64,11 @@
       <bpmn:outgoing>Flow_07y2chx</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_07y2chx" sourceRef="Task_AnfrageNachpruefen" targetRef="Gateway_09mnbj5" />
+    <bpmn:sequenceFlow id="Flow_1839a38" sourceRef="Task_AblehnungInfo" targetRef="Event_AnfrageAbgelehnt" />
+    <bpmn:sendTask id="Task_AblehnungInfo" name="Über Ablehnung informieren" camunda:expression="${creditExecutables.sendRejectionMessage(requestId)}">
+      <bpmn:incoming>Flow_1t6vzn7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1839a38</bpmn:outgoing>
+    </bpmn:sendTask>
     <bpmn:textAnnotation id="TextAnnotation_1w23sp7">
       <bpmn:text>...mittels Camunda DMN Engine</bpmn:text>
     </bpmn:textAnnotation>
@@ -71,6 +76,10 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Prozess_KreditAnfrage">
+      <bpmndi:BPMNEdge id="Flow_07y2chx_di" bpmnElement="Flow_07y2chx">
+        <di:waypoint x="560" y="290" />
+        <di:waypoint x="605" y="290" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ead4e4_di" bpmnElement="Flow_1ead4e4">
         <di:waypoint x="868" y="200" />
         <di:waypoint x="922" y="200" />
@@ -81,9 +90,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1t6vzn7_di" bpmnElement="Flow_1t6vzn7">
         <di:waypoint x="655" y="290" />
-        <di:waypoint x="722" y="290" />
+        <di:waypoint x="690" y="290" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="668" y="272" width="23" height="14" />
+          <dc:Bounds x="653" y="272" width="23" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_12g91vy_di" bpmnElement="Flow_12g91vy">
@@ -104,10 +113,6 @@
           <dc:Bounds x="639" y="242" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_07y2chx_di" bpmnElement="Flow_07y2chx">
-        <di:waypoint x="560" y="290" />
-        <di:waypoint x="605" y="290" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1dbdzv4_di" bpmnElement="Flow_1dbdzv4">
         <di:waypoint x="410" y="225" />
         <di:waypoint x="410" y="290" />
@@ -123,6 +128,10 @@
       <bpmndi:BPMNEdge id="Flow_11m0sha_di" bpmnElement="Flow_11m0sha">
         <di:waypoint x="208" y="200" />
         <di:waypoint x="250" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1839a38_di" bpmnElement="Flow_1839a38">
+        <di:waypoint x="790" y="290" />
+        <di:waypoint x="832" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Event_AnfrageErhalten">
         <dc:Bounds x="172" y="182" width="36" height="36" />
@@ -145,15 +154,6 @@
           <dc:Bounds x="376" y="153" width="68" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0g0b2u9_di" bpmnElement="Event_AnfrageAbgelehnt">
-        <dc:Bounds x="722" y="272" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="707" y="315" width="67" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0c30lag_di" bpmnElement="Task_AnfrageNachpruefen">
-        <dc:Bounds x="460" y="250" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_09mnbj5_di" bpmnElement="Gateway_09mnbj5" isMarkerVisible="true">
         <dc:Bounds x="605" y="265" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -172,8 +172,20 @@
           <dc:Bounds x="826" y="225" width="49" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c30lag_di" bpmnElement="Task_AnfrageNachpruefen">
+        <dc:Bounds x="460" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1w23sp7_di" bpmnElement="TextAnnotation_1w23sp7">
         <dc:Bounds x="280" y="80" width="120" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ufg7tg_di" bpmnElement="Task_AblehnungInfo">
+        <dc:Bounds x="690" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0g0b2u9_di" bpmnElement="Event_AnfrageAbgelehnt">
+        <dc:Bounds x="832" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="817" y="315" width="67" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0nthdd6_di" bpmnElement="Association_0nthdd6">
         <di:waypoint x="311" y="160" />

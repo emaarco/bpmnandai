@@ -17,7 +17,7 @@ class InvoiceExecutables(private val invoiceFacade: InvoiceFacade) {
         log.info { "Extract metadata and invoice-positions from provided invoice" }
         invoiceFacade.extractDataFromInvoice(invoiceId)
     }
-
+    
     /**
      * A service-task that executes the payment (...after the invoice got released...)
      */

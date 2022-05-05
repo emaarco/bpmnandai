@@ -41,4 +41,11 @@ class CreditExecutables(private val creditPmmlFacade: CreditPmmlFacade, private 
         log.info { "Send credit offer for request '$requestId' to applicants e-mail" }
     }
 
+    /**
+     * Send a rejection message to the credit-applicant
+     */
+    fun sendRejectionMessage(requestId: String) {
+        log.info { "Send rejection message for request '$requestId' to applicants e-mail" }
+    }
+
 }
