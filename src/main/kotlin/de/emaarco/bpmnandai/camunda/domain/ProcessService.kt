@@ -1,6 +1,7 @@
 package de.emaarco.bpmnandai.camunda.domain
 
 import de.emaarco.bpmnandai.shared.exception.ObjectNotFoundException
+import org.camunda.bpm.engine.DecisionService
 import org.camunda.bpm.engine.RuntimeService
 import org.camunda.bpm.engine.TaskService
 import org.camunda.bpm.engine.runtime.Execution
@@ -8,7 +9,11 @@ import org.camunda.bpm.engine.task.Task
 import org.springframework.stereotype.Service
 
 @Service
-class ProcessService(private val taskService: TaskService, private val runtimeService: RuntimeService) {
+class ProcessService(
+    private val taskService: TaskService,
+    private val runtimeService: RuntimeService,
+    private val decisionService: DecisionService,
+) {
 
     fun getAllTasks(): List<Task> {
         return taskService.createTaskQuery().list()
@@ -33,6 +38,12 @@ class ProcessService(private val taskService: TaskService, private val runtimeSe
 
     fun finishTask(taskId: String, variables: Map<String, Any>? = null) {
         taskService.complete(taskId, variables)
+    }
+
+    fun evaluateDecision(map: Map<String, Any?>) {
+        var result = decisionService.evaluateDecisionTableByKey("decision_check_creditworthiness", map)
+        println(">>>> " + result.singleResult.keys);
+        println(">>> " + result)
     }
 
     /* ------------------------- private helper methods ------------------------- */

@@ -36,8 +36,10 @@ class CreditFacade(
     }
 
     fun saveResultOfCreditworthinessCheck(requestId: String) {
-        val isCreditworthy = processService.getProcessVariable(requestId, "creditworthy") as String
         val loanRequest = creditService.getSpecificRequest(requestId)
+        var map = getProcessVariables(loanRequest)
+        processService.evaluateDecision(map);
+        val isCreditworthy = processService.getProcessVariable(requestId, "creditworthy") as String
         loanRequest.creditworthy = isCreditworthy
         creditService.saveLoanRequest(loanRequest)
         log.debug { "Updated credit-request '$requestId' with result of creditworthiness check" }
