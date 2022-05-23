@@ -19,15 +19,15 @@ data class Invoice @Default constructor(
 
     constructor(uploadId: String, jsonObject: JSONObject) : this(
         uploadId,
-        jsonObject.getString("invoice_number"),
-        jsonObject.getString("purchase_order_number"),
-        jsonObject.getString("date"),
+        jsonObject.optString("invoice_number"),
+        jsonObject.optString("purchase_order_number"),
+        jsonObject.optString("date"),
         ArrayList(),
-        Vendor(jsonObject.getJSONObject("vendor"), jsonObject.getString("vendor_iban")),
-        jsonObject.getDouble("subtotal"),
-        jsonObject.getDouble("shipping"),
-        jsonObject.getDouble("tax"),
-        jsonObject.getDouble("total")
+        Vendor(jsonObject.getJSONObject("vendor"), jsonObject.optString("vendor_iban")),
+        jsonObject.optDouble("subtotal"),
+        jsonObject.optDouble("shipping"),
+        jsonObject.optDouble("tax"),
+        jsonObject.optDouble("total")
     ) {
         initShoppingCart(jsonObject.getJSONArray("line_items"))
     }

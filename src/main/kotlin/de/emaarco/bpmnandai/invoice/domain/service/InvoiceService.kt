@@ -40,8 +40,10 @@ class InvoiceService(
         return matchingInvoice
     }
 
-    fun executePayment(invoiceId: String) {
-        log.info { "Successfully executed payment for invoice '$invoiceId'" }
+    fun executePayment(uploadId: String) {
+        val matchingInvoice = findInvoice(uploadId)
+        payInvoice(matchingInvoice)
+        log.info { "Successfully executed payment for invoice '$uploadId'" }
     }
 
     /* ------------------------- private helper methods ------------------------- */
@@ -56,6 +58,10 @@ class InvoiceService(
         return invoiceRepository.findByUploadId(uploadId)
             ?.let { invoice -> invoiceMapper.mapToModel(invoice) }
             ?: throw ObjectNotFoundException("Found no invoice for uploadId '$uploadId'")
+    }
+
+    private fun payInvoice(invoice: Invoice) {
+        log.info { "Execute payment for invoice '${invoice.uploadId}'" }
     }
 
     private fun saveInvoice(invoice: Invoice) {

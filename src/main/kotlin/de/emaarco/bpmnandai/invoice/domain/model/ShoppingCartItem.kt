@@ -14,15 +14,15 @@ data class ShoppingCartItem @Default constructor(
     val unitOfMeasure: String
 ) {
 
-    constructor(jsonObject: JSONObject): this(
-        jsonObject.getLong("id"),
-        jsonObject.getString("description"),
-        jsonObject.getDouble("discount"),
-        jsonObject.getDouble("price"),
-        jsonObject.getDouble("quantity"),
-        jsonObject.getDouble("tax"),
-        jsonObject.getDouble("total"),
-        jsonObject.getString("unit_of_measure")
+    constructor(jsonObject: JSONObject) : this(
+        jsonObject.optLong("id"),
+        jsonObject.optString("description"),
+        jsonObject.optDouble("discount"),
+        jsonObject.optDouble("price"),
+        jsonObject.optDouble("quantity"),
+        jsonObject.optDouble("tax"),
+        jsonObject.optDouble("total"),
+        jsonObject.optString("unit_of_measure")
     )
 
 }

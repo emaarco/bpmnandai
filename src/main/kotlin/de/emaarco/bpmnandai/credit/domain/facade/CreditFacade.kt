@@ -2,10 +2,12 @@ package de.emaarco.bpmnandai.credit.domain.facade
 
 import de.emaarco.bpmnandai.camunda.domain.ProcessService
 import de.emaarco.bpmnandai.credit.domain.model.LoanRequest
+import de.emaarco.bpmnandai.credit.domain.model.NewLoanRequest
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
 import de.emaarco.bpmnandai.credit.domain.service.LoanRequestTestDataService
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class CreditFacade(
@@ -21,6 +23,16 @@ class CreditFacade(
         return creditService.getSpecificRequest(requestId)
     }
 
+    fun createLoanRequest(newRequest: NewLoanRequest): LoanRequest {
+        val requestId = UUID.randomUUID().toString()
+        val loanRequest = LoanRequest(requestId, newRequest)
+        creditService.saveLoanRequest(loanRequest)
+        val processVariables = getProcessVariables(loanRequest)
+        processService.startInstanceOfProcess(processKey, requestId, processVariables)
+        log.info { "Created a new loan request: $loanRequest" }
+        return loanRequest
+    }
+
     fun processLoanRequests() {
         creditService.deleteAllRequests()
         val requests: List<LoanRequest> = testDataService.getAllRequests()
@@ -31,13 +43,13 @@ class CreditFacade(
             val processVariables = getProcessVariables(request)
             processService.startInstanceOfProcess(processKey, businessKey, processVariables)
             currentIteration++
-            log.info("Provided loan-request '$currentIteration' of '${requests.size}' to engine")
+            log.info { "Provided loan-request '$currentIteration' of '${requests.size}' to engine" }
         }
     }
 
     fun saveResultOfCreditworthinessCheck(requestId: String) {
         val loanRequest = creditService.getSpecificRequest(requestId)
-        var map = getProcessVariables(loanRequest)
+        val map = getProcessVariables(loanRequest)
         processService.evaluateDecision(map);
         val isCreditworthy = processService.getProcessVariable(requestId, "creditworthy") as String
         loanRequest.creditworthy = isCreditworthy
@@ -48,7 +60,8 @@ class CreditFacade(
     fun recheckLoanRequest(requestId: String, result: Boolean): LoanRequest {
         val taskId = processService.getTaskForBusinessKey(requestId, "Task_AnfrageNachpruefen").id
         val updatedRequest = creditService.recheckLoanRequest(requestId, result)
-        processService.finishTask(taskId, mapOf("recheck_creditworthy" to updatedRequest.creditworthy))
+        val processVars = mapOf(Pair("recheck_creditworthy", updatedRequest.getCreditworthiness()));
+        processService.finishTask(taskId, processVars)
         return updatedRequest
     }
 

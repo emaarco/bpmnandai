@@ -11,9 +11,9 @@ data class Vendor @Default constructor(
 ) {
 
     constructor(jsonObject: JSONObject, vendorIban: String) : this(
-        jsonObject.getString("address"),
-        jsonObject.getString("email"),
-        jsonObject.getString("name"),
+        jsonObject.optString("address"),
+        jsonObject.optString("email"),
+        jsonObject.optString("name"),
         vendorIban
     )
 
