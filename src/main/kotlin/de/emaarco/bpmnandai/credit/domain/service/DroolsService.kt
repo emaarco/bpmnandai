@@ -18,14 +18,14 @@ class DroolsService(private val dmnRuntime: DMNRuntime) {
     private val dmnModelOutput: String? = null
 
     fun evaluateCreditApprovalDecisionModel(request: LoanRequest): String {
-        val dmnModel: DMNModel = initializeModel()
+        val dmnModel: DMNModel = getModel()
         val isApproved = executeDecisionModel(dmnModel, request)
         return mapResult(isApproved)
     }
 
     /* ------------------------- private helper methods ------------------------- */
 
-    private fun initializeModel(): DMNModel {
+    private fun getModel(): DMNModel {
         return dmnRuntime.getModel(dmnModelNameSpace, dmnModelName)
     }
 

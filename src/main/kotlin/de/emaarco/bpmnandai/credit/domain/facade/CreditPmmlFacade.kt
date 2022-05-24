@@ -2,11 +2,13 @@ package de.emaarco.bpmnandai.credit.domain.facade
 
 import de.emaarco.bpmnandai.camunda.domain.ProcessService
 import de.emaarco.bpmnandai.credit.domain.model.LoanRequest
+import de.emaarco.bpmnandai.credit.domain.model.NewLoanRequest
 import de.emaarco.bpmnandai.credit.domain.service.CreditService
 import de.emaarco.bpmnandai.credit.domain.service.DroolsService
 import de.emaarco.bpmnandai.credit.domain.service.LoanRequestTestDataService
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class CreditPmmlFacade(
@@ -19,6 +21,16 @@ class CreditPmmlFacade(
     private val log = KotlinLogging.logger {}
     private val processKey = "Process_KreditAnfrage_Ext"
 
+    fun createLoanRequest(newRequest: NewLoanRequest): LoanRequest {
+        val requestId = UUID.randomUUID().toString()
+        val loanRequest = LoanRequest(requestId, newRequest)
+        creditService.saveLoanRequest(loanRequest)
+        val processVariables = mapOf(Pair("requestId", requestId))
+        processService.startInstanceOfProcess(processKey, requestId, processVariables)
+        log.info { "Created a new loan request: $loanRequest" }
+        return loanRequest
+    }
+
     fun processLoanRequests() {
         creditService.deleteAllRequests()
         val allRequests: List<LoanRequest> = testDataService.getAllRequests()
@@ -28,7 +40,7 @@ class CreditPmmlFacade(
             val businessKey: String = request.id
             val vars: MutableMap<String, Any> = HashMap()
             vars["requestId"] = businessKey
-            log.info("Starting instance '${iterationCounter++}' of '${allRequests.size}' with key '${businessKey}'")
+            log.info { "Starting instance '${iterationCounter++}' of '${allRequests.size}' with key '${businessKey}'" }
             processService.startInstanceOfProcess(processKey, businessKey, vars)
         }
     }

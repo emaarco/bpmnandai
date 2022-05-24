@@ -16,9 +16,9 @@ class CreditService(private val loanRequestRepository: LoanRequestRepository) {
         return findLoanRequest(requestId)
     }
 
-    fun recheckLoanRequest(requestId: String, result: Boolean): LoanRequest {
+    fun recheckLoanRequest(requestId: String, creditworthy: Boolean): LoanRequest {
         val matchingRequest = findLoanRequest(requestId)
-        matchingRequest.updateResultOfCreditworthinessCheck(result)
+        matchingRequest.updateResultOfCreditworthinessCheck(creditworthy)
         saveLoanRequest(matchingRequest)
         return matchingRequest
     }

@@ -18,7 +18,7 @@ data class LoanRequestEntity(
     @Column(name = "credit_amount_", nullable = false)
     val creditAmount: Double,
 
-    @Column(name = "creditworthy_", nullable = false)
-    val creditworthy: String
+    @Column(name = "creditworthy_", nullable = true)
+    val creditworthy: String?
 
 )

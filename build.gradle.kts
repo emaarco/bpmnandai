@@ -47,6 +47,9 @@ dependencies {
     implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.16.0")
     implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.16.0")
 
+    // Veryfi
+    implementation("com.veryfi:veryfi-kotlin:1.0.0")
+
     // Drools (Base)
     implementation("org.drools:drools-core:7.63.0.Final")
     implementation("org.kie:kie-dmn-core:7.63.0.Final")

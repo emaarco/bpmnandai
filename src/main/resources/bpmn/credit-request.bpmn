@@ -76,6 +76,10 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Prozess_KreditAnfrage">
+      <bpmndi:BPMNEdge id="Flow_1839a38_di" bpmnElement="Flow_1839a38">
+        <di:waypoint x="790" y="290" />
+        <di:waypoint x="832" y="290" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_07y2chx_di" bpmnElement="Flow_07y2chx">
         <di:waypoint x="560" y="290" />
         <di:waypoint x="605" y="290" />
@@ -129,10 +133,6 @@
         <di:waypoint x="208" y="200" />
         <di:waypoint x="250" y="200" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1839a38_di" bpmnElement="Flow_1839a38">
-        <di:waypoint x="790" y="290" />
-        <di:waypoint x="832" y="290" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Event_AnfrageErhalten">
         <dc:Bounds x="172" y="182" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -152,6 +152,12 @@
         <dc:Bounds x="385" y="175" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="376" y="153" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0g0b2u9_di" bpmnElement="Event_AnfrageAbgelehnt">
+        <dc:Bounds x="832" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="817" y="315" width="67" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_09mnbj5_di" bpmnElement="Gateway_09mnbj5" isMarkerVisible="true">
@@ -175,17 +181,11 @@
       <bpmndi:BPMNShape id="Activity_0c30lag_di" bpmnElement="Task_AnfrageNachpruefen">
         <dc:Bounds x="460" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1w23sp7_di" bpmnElement="TextAnnotation_1w23sp7">
-        <dc:Bounds x="280" y="80" width="120" height="40" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ufg7tg_di" bpmnElement="Task_AblehnungInfo">
+      <bpmndi:BPMNShape id="Activity_0ztvhug_di" bpmnElement="Task_AblehnungInfo">
         <dc:Bounds x="690" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0g0b2u9_di" bpmnElement="Event_AnfrageAbgelehnt">
-        <dc:Bounds x="832" y="272" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="817" y="315" width="67" height="27" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="TextAnnotation_1w23sp7_di" bpmnElement="TextAnnotation_1w23sp7">
+        <dc:Bounds x="280" y="80" width="120" height="40" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0nthdd6_di" bpmnElement="Association_0nthdd6">
         <di:waypoint x="311" y="160" />
